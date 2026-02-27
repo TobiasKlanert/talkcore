@@ -1,0 +1,114 @@
+# =========================
+# GENERAL
+# =========================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+
+# =========================
+# ENV FILES
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# PYTHON / DJANGO
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python build artifacts
+build/
+*.egg-info/
+
+# Django
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# pytest / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# =========================
+# DJANGO SECRET FILES
+# =========================
+instance/
+secrets.json
+
+# =========================
+# NODE / ANGULAR
+# =========================
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+.angular/
+coverage/
+
+# Angular cache
+.cache/
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# Compiled output
+/tmp
+/out-tsc
+/bazel-out
+
+# =========================
+# BUILD / IDE
+# =========================
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.code-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/
+
+# =========================
+# DOCKER
+# =========================
+docker-compose.override.yml
+*.env.local
+
+# =========================
+# OS / SYSTEM
+# =========================
+*.bak
+*.orig
+
+# Mac/Linux
+*.pid
+
