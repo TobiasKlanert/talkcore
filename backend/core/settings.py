@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'users_app',
+    'auth_app',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +76,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+
+AUTH_USER_MODEL = "users_app.User"
 
 
 # Database
