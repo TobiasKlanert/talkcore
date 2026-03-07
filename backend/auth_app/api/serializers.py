@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from users_app.api.serializers import UserSerializer
 
@@ -61,3 +62,17 @@ class LoginSerializer(TokenObtainPairSerializer):
         data["user"] = UserSerializer(user).data
 
         return data
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    def save(self, **kwargs):
+        refresh_token = self.validated_data["refresh"]
+
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+
+        user = self.context["request"].user
+        user.is_online = False
+        user.save(update_fields=["is_online"])
