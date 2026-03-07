@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.encoding import force_bytes
@@ -11,10 +12,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from urllib.parse import urlencode
+
 from .serializers import RegisterSerializer
 
 User = get_user_model()
-print("VIEWS FILE LOADED")
 
 class RegisterView(APIView):
     permission_classes = []
@@ -28,18 +30,36 @@ class RegisterView(APIView):
         token = default_token_generator.make_token(user)
 
         activation_path = reverse("activate_account")
-        activation_url = f"{request.scheme}://{request.get_host()}{activation_path}?uid={uid}&token={token}"
 
-        send_mail(
-            subject="Activate your TalkCore account",
-            message=f"""
-                Please activate your account using this link:
-                {activation_url}
-            """,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.email],
-            fail_silently=False,
+        params = urlencode({
+            "uid": uid,
+            "token": token,
+        })
+
+        activation_url = f"{request.scheme}://{request.get_host()}{activation_path}?{params}"
+        
+        context = {
+            "activation_url": activation_url,
+        }
+
+        html_content = render_to_string(
+            "emails/activation_email.html",
+            context
         )
+
+        email = EmailMultiAlternatives(
+            subject="Activate your TalkCore account",
+            body=activation_url,  # fallback plain text
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[user.email],
+        )
+
+        email.attach_alternative(html_content, "text/html")
+        email.encoding = "utf-8"
+        email.send()
+
+        #for development only -> remove in production
+        print("ACTIVATION URL:", activation_url)
 
         return Response(
             {"detail": "Registration successful. Please check your email to activate your account."},
