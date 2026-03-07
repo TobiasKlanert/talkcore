@@ -145,3 +145,5 @@ STATIC_URL = 'static/'
 #E-Mail Settings - for development
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "noreply@talkcore.local"
+
+FRONTEND_URL = 'http://127.0.0.1:5500/pages/auth/confirm-password.html'

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth.tokens import default_token_generator, PasswordResetTokenGenerator
+from django.core.mail import EmailMultiAlternatives, send_mail
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.urls import reverse
@@ -16,7 +16,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from urllib.parse import urlencode
 
-from .serializers import RegisterSerializer, LoginSerializer, LogoutSerializer
+from .serializers import RegisterSerializer, LoginSerializer, LogoutSerializer, ConfirmPasswordSerializer
 
 User = get_user_model()
 
@@ -122,3 +122,46 @@ class LogoutView(APIView):
         serializer.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ResetPasswordView(APIView):
+
+    def post(self, request):
+        email = request.data.get("email")
+
+        try:
+            user = User.objects.get(email=email, is_active=True)
+
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = PasswordResetTokenGenerator().make_token(user)
+
+            reset_url = f"{settings.FRONTEND_URL}/reset-password?uid={uid}&token={token}"
+
+            send_mail(
+                subject="Reset your TalkCore password",
+                message=reset_url,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+            )
+
+        except User.DoesNotExist:
+            pass
+
+        return Response(
+            {"detail": "If an account with this email exists, a password reset link has been sent."},
+            status=status.HTTP_200_OK
+        )
+
+
+class ConfirmPasswordView(APIView):
+
+    def post(self, request):
+
+        serializer = ConfirmPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"detail": "Password has been reset successfully."},
+            status=status.HTTP_200_OK
+        )
