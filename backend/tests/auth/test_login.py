@@ -76,6 +76,6 @@ def test_login_fails_for_inactive_user(api_client, user_factory):
     }
     response = api_client.post(LOGIN_URL, payload, format="json")
 
-    assert response.status_code == 403
+    assert response.status_code == 401
     user.refresh_from_db()
     assert user.is_online is False

@@ -8,8 +8,8 @@ from rest_framework.test import APIClient
 
 pytestmark = pytest.mark.django_db
 
-RESET_PASSWORD_URL = "/api/reset_password/"
-CONFIRM_PASSWORD_URL = "/api/confirm_password/"
+RESET_PASSWORD_URL = "/api/reset-password/"
+CONFIRM_PASSWORD_URL = "/api/confirm-password/"
 
 
 @pytest.fixture(autouse=True)
@@ -69,8 +69,8 @@ def test_confirm_password_reset_success_updates_password(api_client, user_factor
     payload = {
         "uid": uid,
         "token": token,
-        "new_password": "NewStrongPassword123",
-        "new_password_confirm": "NewStrongPassword123",
+        "password": "NewStrongPassword123",
+        "password_confirm": "NewStrongPassword123",
     }
     response = api_client.post(CONFIRM_PASSWORD_URL, payload, format="json")
 

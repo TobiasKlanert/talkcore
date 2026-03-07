@@ -53,14 +53,17 @@ def authenticated_tokens(api_client, user_factory):
 
 def test_logout_success_blacklists_refresh_token_and_sets_offline(api_client, authenticated_tokens):
     user, access, refresh = authenticated_tokens
+
+    parsed_refresh = RefreshToken(refresh)
+    jti = parsed_refresh["jti"]
+
     api_client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
 
     response = api_client.post(LOGOUT_URL, {"refresh": refresh}, format="json")
 
-    assert response.status_code == 205
+    assert response.status_code == 204
+
     user.refresh_from_db()
     assert user.is_online is False
 
-    parsed_refresh = RefreshToken(refresh)
-    jti = parsed_refresh["jti"]
     assert BlacklistedToken.objects.filter(token__jti=jti).exists()
