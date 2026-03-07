@@ -11,7 +11,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from urllib.parse import urlencode
 
