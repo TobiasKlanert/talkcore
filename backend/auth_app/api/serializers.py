@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from users_app.api.serializers import UserSerializer
 
 User = get_user_model()
 
@@ -38,3 +41,23 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+
+class LoginSerializer(TokenObtainPairSerializer):
+
+    username_field = "email"
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        user = self.user
+
+        if not user.is_active:
+            raise AuthenticationFailed("Account not activated")
+
+        user.is_online = True
+        user.save(update_fields=["is_online"])
+
+        data["user"] = UserSerializer(user).data
+
+        return data

@@ -11,10 +11,11 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from urllib.parse import urlencode
 
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, LoginSerializer
 
 User = get_user_model()
 
@@ -102,3 +103,7 @@ class ActivateAccountView(APIView):
             {"detail": "Account activated successfully."},
             status=status.HTTP_200_OK,
         )
+
+
+class LoginView(TokenObtainPairView):
+    serializer_class = LoginSerializer
