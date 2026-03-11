@@ -1,47 +1,17 @@
 import pytest
-from django.contrib.auth import get_user_model
-from rest_framework.test import APIClient
 
+from django.contrib.auth import get_user_model
+
+from rest_framework.test import APIClient
 
 pytestmark = pytest.mark.django_db
 
 REGISTER_URL = "/api/register/"
 
 
-@pytest.fixture(autouse=True)
-def _email_backend(settings):
-    settings.EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
-
-
-@pytest.fixture
-def api_client():
-    return APIClient()
-
-
-@pytest.fixture
-def user_factory():
-    user_model = get_user_model()
-
-    def _create_user(**kwargs):
-        email = kwargs.pop("email", "user@example.com")
-        display_name = kwargs.pop("display_name", "Tobias")
-        password = kwargs.pop("password", "StrongPassword123")
-        is_active = kwargs.pop("is_active", False)
-
-        user = user_model.objects.create(
-            email=email,
-            display_name=display_name,
-            is_active=is_active,
-            **kwargs,
-        )
-        user.set_password(password)
-        user.save()
-        return user
-
-    return _create_user
-
-
-def test_register_success_creates_inactive_user_and_sends_activation_email(api_client, mailoutbox):
+def test_register_success_creates_inactive_user_and_sends_activation_email(
+    api_client, mailoutbox
+):
     payload = {
         "email": "user@example.com",
         "display_name": "Tobias",
