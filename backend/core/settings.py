@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'users_app',
     'auth_app',
-    'messaging_app',
+    'messaging_app.apps.MessagingAppConfig',
 ]
 
 MIDDLEWARE = [
