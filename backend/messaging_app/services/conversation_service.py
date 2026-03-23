@@ -1,5 +1,5 @@
 from django.db import transaction
-from .models import Conversation, ConversationMember
+from messaging_app.models import Conversation, ConversationMember
 
 
 @transaction.atomic
