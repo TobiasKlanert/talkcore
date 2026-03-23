@@ -6,7 +6,7 @@ from messaging_app.models import Conversation, ConversationMember, Message
 @pytest.mark.django_db
 def test_user_can_list_messages(api_client, authenticated_tokens, user_factory):
     member_user, access_token, _ = authenticated_tokens
-    other_user = user_factory()
+    other_user = user_factory(email="user2@example.com")
     conversation = Conversation.objects.create(name="project-chat", type="channel")
 
     ConversationMember.objects.create(user=member_user, conversation=conversation)
@@ -34,7 +34,7 @@ def test_user_can_list_messages(api_client, authenticated_tokens, user_factory):
 @pytest.mark.django_db
 def test_user_cannot_view_messages_if_not_member(api_client, authenticated_tokens, user_factory):
     requester, access_token, _ = authenticated_tokens
-    sender = user_factory()
+    sender = user_factory(email="user2@example.com")
     conversation = Conversation.objects.create(name="staff-only", type="channel")
 
     ConversationMember.objects.create(user=sender, conversation=conversation)
