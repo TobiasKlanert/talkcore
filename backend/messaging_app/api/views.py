@@ -1,9 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.permissions import IsAuthenticated
 
 from messaging_app.models import Conversation, ConversationMember, Message
@@ -68,7 +69,21 @@ class CreateDMView(APIView):
 
     def post(self, request):
         other_user_id = request.data.get("user_id")
+        if not other_user_id:
+            raise ValidationError({"user_id": "This field is required."})
 
-        conversation = get_or_create_dm(user1=request.user, user2_id=other_user_id)
+        user_model = get_user_model()
+        other_user = get_object_or_404(user_model, id=other_user_id)
 
-        return Response({"conversation": conversation.id})
+        try:
+            conversation, created = get_or_create_dm(
+                user1=request.user,
+                user2=other_user,
+            )
+        except ValueError as exc:
+            raise ValidationError({"user_id": str(exc)}) from exc
+
+        return Response(
+            {"conversation": str(conversation.id)},
+            status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
+        )
