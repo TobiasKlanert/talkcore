@@ -1,26 +1,27 @@
-from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.exceptions import PermissionDenied, ValidationError
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 
 from messaging_app.models import Conversation, ConversationMember, Message
 from messaging_app.services.conversation_service import get_or_create_dm
 from messaging_app.services.message_service import send_message
 
-from .serializers import MessageSerializer
+from .serializers import CreateDMSerializer, MessageSerializer, SendMessageSerializer
 
 
 class SendMessageView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        conversation_id = request.data.get("conversation")
-        content = request.data.get("content")
-        conversation = get_object_or_404(Conversation, id=conversation_id)
+        serializer = SendMessageSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        conversation = serializer.validated_data["conversation"]
+        content = serializer.validated_data["content"]
 
         is_member = ConversationMember.objects.filter(
             conversation=conversation,
@@ -68,20 +69,16 @@ class CreateDMView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        other_user_id = request.data.get("user_id")
-        if not other_user_id:
-            raise ValidationError({"user_id": "This field is required."})
+        serializer = CreateDMSerializer(
+            data=request.data,
+            context={"request": request},
+        )
+        serializer.is_valid(raise_exception=True)
 
-        user_model = get_user_model()
-        other_user = get_object_or_404(user_model, id=other_user_id)
-
-        try:
-            conversation, created = get_or_create_dm(
-                user1=request.user,
-                user2=other_user,
-            )
-        except ValueError as exc:
-            raise ValidationError({"user_id": str(exc)}) from exc
+        conversation, created = get_or_create_dm(
+            user1=request.user,
+            user2=serializer.validated_data["user"],
+        )
 
         return Response(
             {"conversation": str(conversation.id)},
