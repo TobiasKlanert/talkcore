@@ -9,7 +9,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import CreateDMSerializer, MessageSerializer, SendMessageSerializer
+from .serializers import (
+    ConversationSerializer,
+    CreateDMSerializer,
+    MessageSerializer,
+    SendMessageSerializer,
+)
 
 
 class SendMessageView(APIView):
@@ -85,3 +90,15 @@ class CreateDMView(APIView):
             {"conversation": str(conversation.id)},
             status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
         )
+
+
+class ListConversationView(generics.ListAPIView):
+    serializer_class = ConversationSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return Conversation.objects.filter(
+            members__user=user
+        ).distinct()
