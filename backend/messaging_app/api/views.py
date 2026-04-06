@@ -1,20 +1,19 @@
 from django.shortcuts import get_object_or_404
-
-from rest_framework import generics, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import IsAuthenticated
-
+from messaging_app.api.permissions import IsConversationMember
 from messaging_app.models import Conversation, ConversationMember, Message
 from messaging_app.services.conversation_service import get_or_create_dm
 from messaging_app.services.message_service import send_message
+from rest_framework import generics, status
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import CreateDMSerializer, MessageSerializer, SendMessageSerializer
 
 
 class SendMessageView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsConversationMember]
 
     def post(self, request):
         serializer = SendMessageSerializer(data=request.data)
@@ -48,10 +47,12 @@ class SendMessageView(APIView):
 
 class ListMessagesView(generics.ListAPIView):
     serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsConversationMember]
 
     def get_queryset(self):
-        conversation = get_object_or_404(Conversation, id=self.kwargs["conversation_id"])
+        conversation = get_object_or_404(
+            Conversation, id=self.kwargs["conversation_id"]
+        )
 
         is_member = ConversationMember.objects.filter(
             conversation=conversation,
