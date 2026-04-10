@@ -63,3 +63,12 @@ body {
   text-rendering: optimizeLegibility;
   font-feature-settings: 'liga';
 }
+
+/* roboto-regular - latin */
+@font-face {
+  font-display: swap; 
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../assets/fonts/roboto-v51-latin-regular.woff2') format('woff2');
+}
