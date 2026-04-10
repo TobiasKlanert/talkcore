@@ -4,6 +4,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 
 from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
