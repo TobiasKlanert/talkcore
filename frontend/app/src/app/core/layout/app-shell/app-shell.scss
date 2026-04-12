@@ -1,0 +1,71 @@
+:host {
+  display: block;
+  height: 100dvh;
+}
+
+.shell {
+  height: 100%;
+  background-color: #f8fafc;
+}
+
+.shell__sidenav {
+  width: 260px;
+  padding: 0.75rem;
+  border-right: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.shell__brand {
+  margin-bottom: 1rem;
+}
+
+.shell__brand-button {
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.shell__brand-button:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.shell__content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.shell__topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.shell__topbar-title {
+  font-weight: 600;
+}
+
+.shell__spacer {
+  flex: 1;
+}
+
+.shell__content {
+  flex: 1;
+  padding: 1.25rem;
+  box-sizing: border-box;
+}
+
+.is-active {
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.06);
+}
