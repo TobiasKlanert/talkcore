@@ -1,47 +1,92 @@
-<mat-sidenav-container class="shell">
-  <mat-sidenav class="shell__sidenav" mode="side" opened>
-    <div class="shell__brand">
-      <button class="shell__brand-button" type="button">
-        <mat-icon>forum</mat-icon>
-        <span>{{ appName }}</span>
+<div class="shell">
+  <mat-toolbar class="topbar" role="heading">
+    <div class="topbar__left">
+      <button
+        mat-icon-button
+        type="button"
+        class="topbar__button button button-transition hover-wght"
+        aria-label="Menü anzeigen oder verbergen"
+        (click)="sidenav.toggle()"
+      >
+        <mat-icon fontSet="material-symbols-rounded">menu</mat-icon>
       </button>
+
+      <span class="topbar__brand">TalkCore</span>
     </div>
 
-    <mat-nav-list>
-      <a
-        mat-list-item
-        routerLink="/chat"
-        routerLinkActive="is-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <mat-icon matListItemIcon>chat</mat-icon>
-        <span matListItemTitle>Chat</span>
-      </a>
+    <div class="topbar__center">
+      <mat-form-field appearance="outline" class="topbar__search">
+        <mat-icon fontSet="material-symbols-rounded" matPrefix>search</mat-icon>
+        <input matInput type="text" placeholder="Suchen" />
+      </mat-form-field>
+    </div>
 
-      <a
-        mat-list-item
-        routerLink="/settings"
-        routerLinkActive="is-active"
-      >
-        <mat-icon matListItemIcon>settings</mat-icon>
-        <span matListItemTitle>Einstellungen</span>
-      </a>
-    </mat-nav-list>
-  </mat-sidenav>
-
-  <mat-sidenav-content class="shell__content-wrapper">
-    <mat-toolbar class="shell__topbar">
-      <span class="shell__topbar-title">Workspace</span>
-
-      <span class="shell__spacer"></span>
-
-      <button mat-icon-button aria-label="Benutzerprofil">
-        <mat-icon>account_circle</mat-icon>
+    <div class="topbar__right">
+      <button mat-icon-button class="topbar__button button-transition hover-fill" type="button" aria-label="Profil">
+        <mat-icon fontSet="material-symbols-rounded">account_circle</mat-icon>
       </button>
-    </mat-toolbar>
+    </div>
+  </mat-toolbar>
 
-    <main class="shell__content">
-      <router-outlet></router-outlet>
-    </main>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  <mat-sidenav-container class="example-container" [hasBackdrop]="false">
+    <mat-sidenav class="sidenav" #sidenav [mode]="'side'" opened="true">
+      <div class="nav-container">
+        <nav class="nav">
+          <a
+            class="nav__item button-transition hover-wght"
+            routerLink="/app/chat"
+            routerLinkActive="nav__item--active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <mat-icon fontSet="material-symbols-rounded">tag</mat-icon>
+            <span class="nav__label">Channels</span>
+          </a>
+
+          <a
+            class="nav__item button-transition hover-fill"
+            routerLink="/app/dms"
+            routerLinkActive="nav__item--active"
+          >
+            <mat-icon fontSet="material-symbols-rounded">chat</mat-icon>
+            <span class="nav__label">DMs</span>
+          </a>
+
+          <a
+            class="nav__item button-transition hover-fill"
+            routerLink="/app/new-chat"
+            routerLinkActive="nav__item--active"
+          >
+            <mat-icon fontSet="material-symbols-rounded">edit_square</mat-icon>
+            <span class="nav__label">Neuer Chat</span>
+          </a>
+        </nav>
+
+        <nav class="nav">
+          <a
+            class="nav__item button-transition hover-fill"
+            routerLink="/app/imprint"
+            routerLinkActive="nav__item--active"
+          >
+            <mat-icon fontSet="material-symbols-rounded">description</mat-icon>
+            <span class="nav__label">Impressum</span>
+          </a>
+
+          <a
+            class="nav__item button-transition hover-fill"
+            routerLink="/app/privacy"
+            routerLinkActive="nav__item--active"
+          >
+            <mat-icon fontSet="material-symbols-rounded">policy</mat-icon>
+            <span class="nav__label">Datenschutz</span>
+          </a>
+        </nav>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <main class="main-content__inner">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

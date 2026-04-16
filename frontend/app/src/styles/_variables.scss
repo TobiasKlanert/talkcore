@@ -1,0 +1,38 @@
+:root {
+  /* Light Theme */
+  --app-shell-bg: #f8fafc;
+  --app-sidebar-bg: #e8eef9;
+  --app-sidebar-border: #d6deeb;
+  --app-sidebar-text: #1f2937;
+  --app-sidebar-text-muted: #5b6472;
+  --app-sidebar-hover: #dbe6f6;
+  --app-sidebar-active: #c9daf3;
+
+  --app-header-bg: #ffffff;
+  --app-header-border: #e5e7eb;
+  --app-header-button-hover: #dbe6f6;
+
+  --app-chat-bg: #ffffff;
+  --app-chat-border: #e5e7eb;
+
+  --app-content-bg: #f8fafc;
+}
+
+body.dark-theme {
+  /* Dark Theme */
+  --app-shell-bg: #0f172a;
+  --app-sidebar-bg: #111827;
+  --app-sidebar-border: #1f2937;
+  --app-sidebar-text: #f3f4f6;
+  --app-sidebar-text-muted: #9ca3af;
+  --app-sidebar-hover: #1f2937;
+  --app-sidebar-active: #263449;
+
+  --app-header-bg: #0b1220;
+  --app-header-border: #1f2937;
+
+  --app-chat-bg: #111827;
+  --app-chat-border: #1f2937;
+
+  --app-content-bg: #0f172a;
+}
