@@ -4,8 +4,9 @@
       <button
         mat-icon-button
         type="button"
-        class="topbar__button button button-transition hover-wght"
+        class="topbar__button button button-transition hover-icon"
         aria-label="Menü anzeigen oder verbergen"
+        [class.sidenav__toggle--active]="sidenavOpen()"
         (click)="sidenav.toggle()"
       >
         <mat-icon fontSet="material-symbols-rounded">menu</mat-icon>
@@ -22,29 +23,53 @@
     </div>
 
     <div class="topbar__right">
-      <button mat-icon-button class="topbar__button button-transition hover-fill" type="button" aria-label="Profil">
+      <button
+        mat-icon-button
+        type="button"
+        class="topbar__button button-transition hover-icon"
+        aria-label="Anzeigestil ändern"
+        (click)="toggleTheme()"
+      >
+        @if (this.isDark) {
+          <mat-icon fontSet="material-symbols-rounded">light_mode</mat-icon>
+        } @else {
+          <mat-icon fontSet="material-symbols-rounded">dark_mode</mat-icon>
+        }
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        class="topbar__button button-transition hover-icon"
+        aria-label="Profil"
+      >
         <mat-icon fontSet="material-symbols-rounded">account_circle</mat-icon>
       </button>
     </div>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-container" [hasBackdrop]="false">
-    <mat-sidenav class="sidenav" #sidenav [mode]="'side'" opened="true">
+    <mat-sidenav
+      #sidenav
+      class="sidenav"
+      opened="true"
+      [mode]="mode.value!"
+      (openedStart)="sidenavOpen.set(true)"
+      (closedStart)="sidenavOpen.set(false)"
+    >
       <div class="nav-container">
         <nav class="nav">
           <a
-            class="nav__item button-transition hover-wght"
-            routerLink="/app/chat"
+            class="nav__item button-transition hover-icon"
+            routerLink="/chat"
             routerLinkActive="nav__item--active"
-            [routerLinkActiveOptions]="{ exact: true }"
           >
             <mat-icon fontSet="material-symbols-rounded">tag</mat-icon>
             <span class="nav__label">Channels</span>
           </a>
 
           <a
-            class="nav__item button-transition hover-fill"
-            routerLink="/app/dms"
+            class="nav__item button-transition hover-icon"
+            routerLink="/dms"
             routerLinkActive="nav__item--active"
           >
             <mat-icon fontSet="material-symbols-rounded">chat</mat-icon>
@@ -52,7 +77,7 @@
           </a>
 
           <a
-            class="nav__item button-transition hover-fill"
+            class="nav__item button-transition hover-icon"
             routerLink="/app/new-chat"
             routerLinkActive="nav__item--active"
           >
@@ -63,7 +88,7 @@
 
         <nav class="nav">
           <a
-            class="nav__item button-transition hover-fill"
+            class="nav__item button-transition hover-icon"
             routerLink="/app/imprint"
             routerLinkActive="nav__item--active"
           >
@@ -72,7 +97,7 @@
           </a>
 
           <a
-            class="nav__item button-transition hover-fill"
+            class="nav__item button-transition hover-icon"
             routerLink="/app/privacy"
             routerLinkActive="nav__item--active"
           >

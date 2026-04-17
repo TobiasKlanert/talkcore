@@ -1,38 +1,70 @@
 :root {
-  /* Light Theme */
-  --app-shell-bg: #f8fafc;
-  --app-sidebar-bg: #e8eef9;
-  --app-sidebar-border: #d6deeb;
-  --app-sidebar-text: #1f2937;
-  --app-sidebar-text-muted: #5b6472;
-  --app-sidebar-hover: #dbe6f6;
-  --app-sidebar-active: #c9daf3;
+  /* ========== LIGHT THEME ========== */
 
-  --app-header-bg: #ffffff;
-  --app-header-border: #e5e7eb;
-  --app-header-button-hover: #dbe6f6;
+  /* Base */
+  --shell-bg: #f1f5f9;
+  --content-bg: #ffffff;
 
-  --app-chat-bg: #ffffff;
-  --app-chat-border: #e5e7eb;
+  /* Topbar */
+  --topbar-bg: #ffffff;
+  --topbar-text: #0f172a;
 
-  --app-content-bg: #f8fafc;
+  --topbar-button-hover-bg: #e2e8f0;
+  --topbar-button-hover-text: #0f172a;
+
+  --topbar-button-active-bg: rgba(59, 130, 246, 0.12);
+  --topbar-button-active-text: #2563eb;
+
+  /* Sidenav */
+  --sidenav-bg: #f8fafc;
+  --sidenav-border: #e2e8f0;
+  --sidenav-text: #334155;
+
+  /* Navigation */
+  --nav-item-text: #475569;
+
+  --nav-item-hover-bg: #e2e8f0;
+  --nav-item-hover-text: #0f172a;
+
+  --nav-item-active-bg: rgba(59, 130, 246, 0.12);
+  --nav-item-active-text: #2563eb;
+
+  /* Divider */
+  --shell-divider: #e2e8f0;
 }
 
+
 body.dark-theme {
-  /* Dark Theme */
-  --app-shell-bg: #0f172a;
-  --app-sidebar-bg: #111827;
-  --app-sidebar-border: #1f2937;
-  --app-sidebar-text: #f3f4f6;
-  --app-sidebar-text-muted: #9ca3af;
-  --app-sidebar-hover: #1f2937;
-  --app-sidebar-active: #263449;
+  /* ========== DARK THEME ========== */
 
-  --app-header-bg: #0b1220;
-  --app-header-border: #1f2937;
+  /* Base */
+  --shell-bg: #020617;
+  --content-bg: #020617;
 
-  --app-chat-bg: #111827;
-  --app-chat-border: #1f2937;
+  /* Topbar */
+  --topbar-bg: #020617;
+  --topbar-text: #e2e8f0;
 
-  --app-content-bg: #0f172a;
+  --topbar-button-hover-bg: #1e293b;
+  --topbar-button-hover-text: #ffffff;
+
+  --topbar-button-active-bg: rgba(56, 189, 248, 0.16);
+  --topbar-button-active-text: #38bdf8;
+
+  /* Sidenav */
+  --sidenav-bg: #020617;
+  --sidenav-border: #1e293b;
+  --sidenav-text: #cbd5f5;
+
+  /* Navigation */
+  --nav-item-text: #94a3b8;
+
+  --nav-item-hover-bg: #1e293b;
+  --nav-item-hover-text: #ffffff;
+
+  --nav-item-active-bg: rgba(56, 189, 248, 0.16);
+  --nav-item-active-text: #38bdf8;
+
+  /* Divider */
+  --shell-divider: #1e293b;
 }

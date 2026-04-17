@@ -2,7 +2,7 @@
   display: grid;
   grid-template-rows: 64px 1fr;
   height: 100dvh;
-  background-color: var(--app-shell-bg);
+  background-color: var(--shell-bg);
 }
 
 /* Topbar */
@@ -13,9 +13,9 @@
   align-items: center;
   gap: 16px;
   padding: 0 16px;
-  background-color: var(--app-header-bg);
-  border-bottom: 1px solid var(--app-header-border);
-  color: var(--app-sidebar-text);
+  background-color: var(--topbar-bg);
+  border-bottom: 1px solid var(--shell-divider);
+  color: var(--topbar-text);
 }
 
 .topbar__left,
@@ -53,8 +53,22 @@
 
 .topbar__button {
   --mat-icon-button-hover-state-layer-opacity: 0;
+  color: var(--topbar-text);
   &:hover {
-    background-color: var(--app-header-button-hover);
+    background-color: var(--topbar-button-hover-bg);
+    color: var(--topbar-button-hover-text);
+  }
+}
+
+.sidenav__toggle--active {
+  // background-color: var(--topbar-button-active-bg);
+  color: var(--topbar-button-active-text);
+  mat-icon {
+    font-variation-settings:
+      'FILL' 1,
+      'wght' 600,
+      'GRAD' 0,
+      'opsz' 24;
   }
 }
 
@@ -62,13 +76,13 @@
 
 .shell__content {
   height: 100%;
-  background-color: var(--app-content-bg);
+  background-color: var(--content-bg);
 }
 
 .sidenav {
-  border-right: 1px solid var(--app-sidebar-border);
-  background-color: var(--app-sidebar-bg);
-  color: var(--app-sidebar-text);
+  border-right: 1px solid var(--sidenav-border);
+  background-color: var(--sidenav-bg);
+  color: var(--sidenav-text);
 }
 
 /* Navigation */
@@ -94,20 +108,37 @@
   min-height: 44px;
   padding: 0 12px;
   border-radius: 12px;
-  color: var(--app-sidebar-text);
+  color: var(--nav-item-text);
   text-decoration: none;
   white-space: nowrap;
 
   &:hover {
-    background-color: var(--app-sidebar-hover);
-    border-color: var(--app-sidebar-border);
+    background-color: var(--nav-item-hover-bg);
+    color: var(--nav-item-hover-text);
+  }
+
+  &:active {
+    background-color: var(--nav-item-active-bg);
+    color: var(--nav-item-active-text);
+  }
+}
+
+.nav__item--active {
+  background-color: var(--nav-item-active-bg);
+  color: var(--nav-item-active-text);
+  mat-icon {
+    font-variation-settings:
+      'FILL' 1,
+      'wght' 600,
+      'GRAD' 0,
+      'opsz' 24;
   }
 }
 
 /* Main */
 
 .main-content {
-  background-color: var(--app-content-bg);
+  background-color: var(--content-bg);
 }
 
 .main-content__inner {

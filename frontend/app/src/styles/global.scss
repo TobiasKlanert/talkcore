@@ -5,7 +5,7 @@ html {
   height: 100%;
 }
 
-body {
+:root {
   @include mat.theme(
     (
       color: (
@@ -18,12 +18,14 @@ body {
   );
 
   color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
-
-  margin: 0;
-  height: 100%;
 }
 
 body.dark-theme {
@@ -52,7 +54,7 @@ body.dark-theme {
   src: url('../assets/fonts/roboto-v51-latin-regular.woff2') format('woff2');
 }
 
-.hover-fill {
+.hover-icon {
   font-variation-settings:
     'FILL' 0,
     'wght' 400,
@@ -62,22 +64,6 @@ body.dark-theme {
   &:hover {
     font-variation-settings:
       'FILL' 1,
-      'wght' 400,
-      'GRAD' 0,
-      'opsz' 24;
-  }
-}
-
-.hover-wght {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
-
-  &:hover {
-    font-variation-settings:
-      'FILL' 0,
       'wght' 600,
       'GRAD' 0,
       'opsz' 24;
