@@ -1,5 +1,7 @@
 @use '@angular/material' as mat;
+
 @import 'material-symbols/rounded.css';
+@import './mixins';
 
 html {
   height: 100%;
@@ -17,6 +19,8 @@ html {
     )
   );
 
+  @include menu-theme-overrides();
+
   color-scheme: light;
 }
 
@@ -32,6 +36,7 @@ body.dark-theme {
   @include mat.theme(
     (
       color: (
+        theme-type: dark,
         primary: mat.$blue-palette,
         tertiary: mat.$cyan-palette,
       ),
@@ -39,6 +44,8 @@ body.dark-theme {
       density: 0,
     )
   );
+
+  @include menu-theme-overrides();
 
   color-scheme: dark;
   background-color: var(--mat-sys-surface);
@@ -54,24 +61,7 @@ body.dark-theme {
   src: url('../assets/fonts/roboto-v51-latin-regular.woff2') format('woff2');
 }
 
-.hover-icon {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
-
-  &:hover {
-    font-variation-settings:
-      'FILL' 1,
-      'wght' 600,
-      'GRAD' 0,
-      'opsz' 24;
-  }
-}
-
-.button-transition {
-  transition:
-    font-variation-settings 125ms ease-in-out,
-    background-color 125ms ease-in-out;
+.standard-button {
+  @include hover-icon();
+  @include button-transition();
 }

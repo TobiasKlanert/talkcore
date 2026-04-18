@@ -4,7 +4,7 @@
       <button
         mat-icon-button
         type="button"
-        class="topbar__button button button-transition hover-icon"
+        class="topbar__button standard-button"
         aria-label="Menü anzeigen oder verbergen"
         [class.sidenav__toggle--active]="sidenavOpen()"
         (click)="sidenav.toggle()"
@@ -26,7 +26,7 @@
       <button
         mat-icon-button
         type="button"
-        class="topbar__button button-transition hover-icon"
+        class="topbar__button standard-button"
         aria-label="Anzeigestil ändern"
         (click)="toggleTheme()"
       >
@@ -37,13 +37,38 @@
         }
       </button>
       <button
-        mat-icon-button
-        type="button"
-        class="topbar__button button-transition hover-icon"
-        aria-label="Profil"
+        matIconButton
+        class="topbar__button topbar__menu standard-button"
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
       >
         <mat-icon fontSet="material-symbols-rounded">account_circle</mat-icon>
       </button>
+      <mat-menu #menu="matMenu" class="topbar__menu">
+        <button mat-menu-item class="standard-button">
+          <mat-icon>account_circle</mat-icon>
+          <span>Profil</span>
+        </button>
+
+        <button mat-menu-item class="standard-button">
+          <mat-icon>settings</mat-icon>
+          <span>Einstellungen</span>
+        </button>
+
+        <mat-divider class="nav__divider"></mat-divider>
+
+        <button mat-menu-item class="standard-button">
+          <mat-icon>info</mat-icon>
+          <span>Über TalkCore</span>
+        </button>
+
+        <mat-divider class="nav__divider"></mat-divider>
+
+        <button mat-menu-item class="standard-button">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
     </div>
   </mat-toolbar>
 
@@ -59,7 +84,7 @@
       <div class="nav-container">
         <nav class="nav">
           <a
-            class="nav__item button-transition hover-icon"
+            class="nav__item standard-button"
             routerLink="/chat"
             routerLinkActive="nav__item--active"
           >
@@ -68,7 +93,7 @@
           </a>
 
           <a
-            class="nav__item button-transition hover-icon"
+            class="nav__item standard-button"
             routerLink="/dms"
             routerLinkActive="nav__item--active"
           >
@@ -77,7 +102,7 @@
           </a>
 
           <a
-            class="nav__item button-transition hover-icon"
+            class="nav__item standard-button"
             routerLink="/app/new-chat"
             routerLinkActive="nav__item--active"
           >
@@ -87,8 +112,9 @@
         </nav>
 
         <nav class="nav">
+          <mat-divider class="nav__divider"></mat-divider>
           <a
-            class="nav__item button-transition hover-icon"
+            class="nav__item standard-button"
             routerLink="/app/imprint"
             routerLinkActive="nav__item--active"
           >
@@ -97,7 +123,7 @@
           </a>
 
           <a
-            class="nav__item button-transition hover-icon"
+            class="nav__item standard-button"
             routerLink="/app/privacy"
             routerLinkActive="nav__item--active"
           >

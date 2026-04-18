@@ -1,4 +1,11 @@
 :root {
+  /* ========== DIMENSIONS ========== */
+
+  --topbar-search-height: 40px;
+  --topbar-search-radius: 32px;
+
+  --menu-radius: 16px;
+
   /* ========== LIGHT THEME ========== */
 
   /* Base */
@@ -14,6 +21,10 @@
 
   --topbar-button-active-bg: rgba(59, 130, 246, 0.12);
   --topbar-button-active-text: #2563eb;
+
+  --topbar-search-border: #e2e8f0;
+  --topbar-search-border-hover: #e2e8f0;
+  --topbar-search-border-focus: #2563eb;
 
   /* Sidenav */
   --sidenav-bg: #f8fafc;
@@ -31,8 +42,17 @@
 
   /* Divider */
   --shell-divider: #e2e8f0;
-}
 
+  /* Menu */
+  --menu-bg: #f8fafc;
+  --menu-text: #475569;
+  --menu-icon: #475569;
+
+  --menu-item-hover-bg: #e2e8f0;
+
+  --menu-border: #dbe4f0;
+  --menu-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+}
 
 body.dark-theme {
   /* ========== DARK THEME ========== */
@@ -51,8 +71,12 @@ body.dark-theme {
   --topbar-button-active-bg: rgba(56, 189, 248, 0.16);
   --topbar-button-active-text: #38bdf8;
 
+  --topbar-search-border: #1e293b;
+  --topbar-search-border-hover: #1e293b;
+  --topbar-search-border-focus: #38bdf8;
+
   /* Sidenav */
-  --sidenav-bg: #020617;
+  --sidenav-bg: #111827;
   --sidenav-border: #1e293b;
   --sidenav-text: #cbd5f5;
 
@@ -67,4 +91,14 @@ body.dark-theme {
 
   /* Divider */
   --shell-divider: #1e293b;
+
+  /* Menu */
+  --menu-bg: #111827;
+  --menu-text: #94a3b8;
+  --menu-icon: #94a3b8;
+
+  --menu-item-hover-bg: rgba(56, 189, 248, 0.14);
+
+  --menu-border: rgba(148, 163, 184, 0.18);
+  --menu-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
 }

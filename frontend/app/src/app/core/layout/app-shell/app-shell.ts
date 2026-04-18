@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 type Theme = 'light' | 'dark';
 
@@ -23,6 +25,8 @@ type Theme = 'light' | 'dark';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatMenuModule,
+    MatDividerModule,
   ],
   templateUrl: './app-shell.html',
   styleUrl: './app-shell.scss',
@@ -34,7 +38,7 @@ export class AppShell implements OnInit {
   protected readonly sidenavOpen = signal(false);
 
   private currentTheme: Theme = 'light';
-  isDark:boolean | null = null;
+  isDark: boolean | null = null;
 
   ngOnInit(): void {
     this.initTheme();
