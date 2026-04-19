@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { MatSidenavModule, MatDrawerMode } from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,9 +32,7 @@ type Theme = 'light' | 'dark';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppShell implements OnInit {
-  mode = new FormControl('push' as MatDrawerMode);
-
-  protected readonly sidenavOpen = signal(false);
+  protected readonly sidenavExpanded = signal(false);
 
   private currentTheme: Theme = 'light';
   isDark: boolean | null = null;
@@ -48,6 +45,10 @@ export class AppShell implements OnInit {
     this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
     this.applyTheme(this.currentTheme);
     localStorage.setItem('theme', this.currentTheme);
+  }
+
+  toggleSidenav(): void {
+    this.sidenavExpanded.update((expanded) => !expanded);
   }
 
   private initTheme(): void {

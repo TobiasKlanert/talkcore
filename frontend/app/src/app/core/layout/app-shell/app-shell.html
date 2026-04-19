@@ -1,18 +1,8 @@
 <div class="shell">
   <mat-toolbar class="topbar" role="heading">
     <div class="topbar__left">
-      <button
-        mat-icon-button
-        type="button"
-        class="topbar__button standard-button"
-        aria-label="Menü anzeigen oder verbergen"
-        [class.sidenav__toggle--active]="sidenavOpen()"
-        (click)="sidenav.toggle()"
-      >
-        <mat-icon fontSet="material-symbols-rounded">menu</mat-icon>
-      </button>
-
-      <span class="topbar__brand">TalkCore</span>
+      <mat-icon fontSet="material-symbols-rounded">forum</mat-icon>
+      <h1 class="topbar__brand">TalkCore</h1>
     </div>
 
     <div class="topbar__center">
@@ -72,21 +62,33 @@
     </div>
   </mat-toolbar>
 
-  <mat-sidenav-container class="example-container" [hasBackdrop]="false">
-    <mat-sidenav
-      #sidenav
-      class="sidenav"
-      opened="true"
-      [mode]="mode.value!"
-      (openedStart)="sidenavOpen.set(true)"
-      (closedStart)="sidenavOpen.set(false)"
-    >
+  <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false" autosize>
+    <mat-sidenav class="sidenav" [class.sidenav--expanded]="sidenavExpanded()" opened mode="side">
       <div class="nav-container">
+        <div class="sidenav__header">
+          <button
+            mat-icon-button
+            type="button"
+            class="sidenav__toggle standard-button"
+            [class.sidenav__toggle--active]="sidenavExpanded()"
+            [attr.aria-label]="sidenavExpanded() ? 'Navigation einfahren' : 'Navigation ausfahren'"
+            [attr.aria-expanded]="sidenavExpanded()"
+            (click)="toggleSidenav()"
+          >
+            <mat-icon fontSet="material-symbols-rounded">
+              {{ sidenavExpanded() ? 'left_panel_close' : 'left_panel_open' }}
+            </mat-icon>
+          </button>
+        </div>
+
+        <mat-divider class="nav__divider"></mat-divider>
+
         <nav class="nav">
           <a
             class="nav__item standard-button"
             routerLink="/chat"
             routerLinkActive="nav__item--active"
+            aria-label="Channels"
           >
             <mat-icon fontSet="material-symbols-rounded">tag</mat-icon>
             <span class="nav__label">Channels</span>
@@ -96,6 +98,7 @@
             class="nav__item standard-button"
             routerLink="/dms"
             routerLinkActive="nav__item--active"
+            aria-label="DMs"
           >
             <mat-icon fontSet="material-symbols-rounded">chat</mat-icon>
             <span class="nav__label">DMs</span>
@@ -105,6 +108,7 @@
             class="nav__item standard-button"
             routerLink="/app/new-chat"
             routerLinkActive="nav__item--active"
+            aria-label="Neuer Chat"
           >
             <mat-icon fontSet="material-symbols-rounded">edit_square</mat-icon>
             <span class="nav__label">Neuer Chat</span>
@@ -117,6 +121,7 @@
             class="nav__item standard-button"
             routerLink="/app/imprint"
             routerLinkActive="nav__item--active"
+            aria-label="Impressum"
           >
             <mat-icon fontSet="material-symbols-rounded">description</mat-icon>
             <span class="nav__label">Impressum</span>
@@ -126,6 +131,7 @@
             class="nav__item standard-button"
             routerLink="/app/privacy"
             routerLinkActive="nav__item--active"
+            aria-label="Datenschutz"
           >
             <mat-icon fontSet="material-symbols-rounded">policy</mat-icon>
             <span class="nav__label">Datenschutz</span>
