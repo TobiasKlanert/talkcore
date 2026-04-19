@@ -35,29 +35,17 @@
         <mat-icon fontSet="material-symbols-rounded">account_circle</mat-icon>
       </button>
       <mat-menu #menu="matMenu" class="topbar__menu">
-        <button mat-menu-item class="standard-button">
-          <mat-icon>account_circle</mat-icon>
-          <span>Profil</span>
-        </button>
-
-        <button mat-menu-item class="standard-button">
-          <mat-icon>settings</mat-icon>
-          <span>Einstellungen</span>
-        </button>
-
-        <mat-divider class="nav__divider"></mat-divider>
-
-        <button mat-menu-item class="standard-button">
-          <mat-icon>info</mat-icon>
-          <span>Über TalkCore</span>
-        </button>
-
-        <mat-divider class="nav__divider"></mat-divider>
-
-        <button mat-menu-item class="standard-button">
-          <mat-icon>logout</mat-icon>
-          <span>Logout</span>
-        </button>
+        @for (section of menuSections; track $index) {
+          @if (section.divider) {
+            <mat-divider class="nav__divider"></mat-divider>
+          }
+          @for (item of section.items; track item.label) {
+            <button mat-menu-item class="standard-button">
+              <mat-icon>{{ item.icon }}</mat-icon>
+              <span>{{ item.label }}</span>
+            </button>
+          }
+        }
       </mat-menu>
     </div>
   </mat-toolbar>
@@ -83,60 +71,25 @@
 
         <mat-divider class="nav__divider"></mat-divider>
 
-        <nav class="nav">
-          <a
-            class="nav__item standard-button"
-            routerLink="/chat"
-            routerLinkActive="nav__item--active"
-            aria-label="Channels"
-          >
-            <mat-icon fontSet="material-symbols-rounded">tag</mat-icon>
-            <span class="nav__label">Channels</span>
-          </a>
+        @for (section of navSections; track $index) {
+          <nav class="nav">
+            @if (section.divider) {
+              <mat-divider class="nav__divider"></mat-divider>
+            }
 
-          <a
-            class="nav__item standard-button"
-            routerLink="/dms"
-            routerLinkActive="nav__item--active"
-            aria-label="DMs"
-          >
-            <mat-icon fontSet="material-symbols-rounded">chat</mat-icon>
-            <span class="nav__label">DMs</span>
-          </a>
-
-          <a
-            class="nav__item standard-button"
-            routerLink="/app/new-chat"
-            routerLinkActive="nav__item--active"
-            aria-label="Neuer Chat"
-          >
-            <mat-icon fontSet="material-symbols-rounded">edit_square</mat-icon>
-            <span class="nav__label">Neuer Chat</span>
-          </a>
-        </nav>
-
-        <nav class="nav">
-          <mat-divider class="nav__divider"></mat-divider>
-          <a
-            class="nav__item standard-button"
-            routerLink="/app/imprint"
-            routerLinkActive="nav__item--active"
-            aria-label="Impressum"
-          >
-            <mat-icon fontSet="material-symbols-rounded">description</mat-icon>
-            <span class="nav__label">Impressum</span>
-          </a>
-
-          <a
-            class="nav__item standard-button"
-            routerLink="/app/privacy"
-            routerLinkActive="nav__item--active"
-            aria-label="Datenschutz"
-          >
-            <mat-icon fontSet="material-symbols-rounded">policy</mat-icon>
-            <span class="nav__label">Datenschutz</span>
-          </a>
-        </nav>
+            @for (item of section.items; track item.route) {
+              <a
+                class="nav__item standard-button"
+                [routerLink]="item.route"
+                routerLinkActive="nav__item--active"
+                [attr.aria-label]="item.label"
+              >
+                <mat-icon fontSet="material-symbols-rounded">{{ item.icon }}</mat-icon>
+                <span class="nav__label">{{ item.label }}</span>
+              </a>
+            }
+          </nav>
+        }
       </div>
     </mat-sidenav>
 

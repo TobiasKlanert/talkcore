@@ -37,6 +37,40 @@ export class AppShell implements OnInit {
   private currentTheme: Theme = 'light';
   isDark: boolean | null = null;
 
+  menuSections = [
+    {
+      items: [
+        { label: 'Profil', icon: 'account_circle' },
+        { label: 'Einstellungen', icon: 'settings' },
+      ],
+    },
+    {
+      divider: true,
+      items: [{ label: 'Über TalkCore', icon: 'info' }],
+    },
+    {
+      divider: true,
+      items: [{ label: 'Logout', icon: 'logout' }],
+    },
+  ];
+
+  navSections = [
+    {
+      items: [
+        { label: 'Channels', icon: 'tag', route: '/chat' },
+        { label: 'DMs', icon: 'chat', route: '/dms' },
+        { label: 'Neuer Chat', icon: 'edit_square', route: '/new-chat' },
+      ],
+    },
+    {
+      divider: true,
+      items: [
+        { label: 'Impressum', icon: 'description', route: '/imprint' },
+        { label: 'Datenschutz', icon: 'policy', route: '/privacy' },
+      ],
+    },
+  ];
+
   ngOnInit(): void {
     this.initTheme();
   }
