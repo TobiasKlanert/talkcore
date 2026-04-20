@@ -59,7 +59,22 @@ body {
   src: url('../assets/fonts/roboto-v51-latin-regular.woff2') format('woff2');
 }
 
+a,
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
 .standard-button {
   @include hover-icon();
   @include button-transition();
+}
+
+.center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

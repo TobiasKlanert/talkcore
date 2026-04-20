@@ -1,3 +1,10 @@
+.shell {
+  display: grid;
+  grid-template-rows: 64px 1fr;
+  height: 100dvh;
+  background-color: var(--shell-bg);
+}
+
 mat-toolbar.topbar.mat-toolbar-single-row {
   display: grid;
   grid-template-columns: 220px minmax(280px, 1fr) 220px;
@@ -32,4 +39,24 @@ mat-toolbar.topbar.mat-toolbar-single-row {
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.02em;
+}
+
+.topbar__button {
+  --mat-icon-button-hover-state-layer-opacity: 0;
+  color: var(--topbar-text);
+  &:hover {
+    background-color: var(--topbar-button-hover-bg);
+    color: var(--topbar-button-hover-text);
+  }
+}
+
+/* Main */
+
+.main-content {
+  background-color: var(--content-bg);
+}
+
+.main-content__inner {
+  height: 100%;
+  padding: 24px;
 }

@@ -1,0 +1,33 @@
+<div class="shell">
+  <mat-toolbar class="topbar" role="heading">
+    <div class="topbar__left">
+      <mat-icon fontSet="material-symbols-rounded">forum</mat-icon>
+      <h1 class="topbar__brand">TalkCore</h1>
+    </div>
+    <div class="topbar__center"></div>
+    <div class="topbar__right">
+      <button
+        mat-icon-button
+        type="button"
+        class="topbar__button standard-button"
+        aria-label="Anzeigestil ändern"
+        (click)="themeService.toggleTheme()"
+      >
+        <mat-icon fontSet="material-symbols-rounded">
+          {{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}
+        </mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <div class="main-content">
+    <main class="main-content__inner center-div">
+      <mat-card>
+        <router-outlet></router-outlet>
+      </mat-card>
+    </main>
+    <footer class="auth-footer">
+      <a routerLink="/imprint">Impressum</a>
+      <a routerLink="/privacy">Datenschutz</a>
+    </footer>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { ThemeService } from '@core/services/theme.service';
 
 type Theme = 'light' | 'dark';
 
@@ -31,11 +32,12 @@ type Theme = 'light' | 'dark';
   styleUrl: './app-shell.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppShell implements OnInit {
+export class AppShell {
+  protected readonly themeService = inject(ThemeService);
   protected readonly sidenavExpanded = signal(false);
 
-  private currentTheme: Theme = 'light';
-  isDark: boolean | null = null;
+  /* private currentTheme: Theme = 'light';
+  isDark: boolean | null = null; */
 
   menuSections = [
     {
@@ -71,42 +73,7 @@ export class AppShell implements OnInit {
     },
   ];
 
-  ngOnInit(): void {
-    this.initTheme();
-  }
-
-  toggleTheme(): void {
-    this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
-    this.applyTheme(this.currentTheme);
-    localStorage.setItem('theme', this.currentTheme);
-  }
-
   toggleSidenav(): void {
     this.sidenavExpanded.update((expanded) => !expanded);
-  }
-
-  private initTheme(): void {
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-
-    if (savedTheme) {
-      this.currentTheme = savedTheme;
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.currentTheme = prefersDark ? 'dark' : 'light';
-    }
-
-    this.applyTheme(this.currentTheme);
-  }
-
-  private applyTheme(theme: Theme): void {
-    const body = document.body;
-
-    if (theme === 'dark') {
-      body.classList.add('dark-theme');
-      this.isDark = true;
-    } else {
-      body.classList.remove('dark-theme');
-      this.isDark = false;
-    }
   }
 }

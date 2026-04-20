@@ -18,13 +18,11 @@
         type="button"
         class="topbar__button standard-button"
         aria-label="Anzeigestil ändern"
-        (click)="toggleTheme()"
+        (click)="themeService.toggleTheme()"
       >
-        @if (this.isDark) {
-          <mat-icon fontSet="material-symbols-rounded">light_mode</mat-icon>
-        } @else {
-          <mat-icon fontSet="material-symbols-rounded">dark_mode</mat-icon>
-        }
+        <mat-icon fontSet="material-symbols-rounded">
+          {{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}
+        </mat-icon>
       </button>
       <button
         matIconButton
@@ -93,7 +91,7 @@
       </div>
     </mat-sidenav>
 
-    <mat-sidenav-content>
+    <mat-sidenav-content class="main-content">
       <main class="main-content__inner">
         <router-outlet></router-outlet>
       </main>
