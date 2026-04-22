@@ -1,0 +1,62 @@
+.shell {
+  display: grid;
+  grid-template-rows: 64px 1fr;
+  height: 100dvh;
+  background-color: var(--shell-bg);
+}
+
+mat-toolbar.topbar.mat-toolbar-single-row {
+  display: grid;
+  grid-template-columns: 220px minmax(280px, 1fr) 220px;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  background-color: var(--topbar-bg);
+  border-bottom: 1px solid var(--shell-divider);
+  color: var(--topbar-text);
+}
+
+.topbar__left,
+.topbar__right {
+  display: flex;
+  align-items: center;
+}
+
+.topbar__left {
+  gap: 8px;
+}
+
+.topbar__right {
+  justify-content: flex-end;
+}
+
+.topbar__center {
+  display: flex;
+  justify-content: center;
+}
+
+.topbar__brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.topbar__button {
+  --mat-icon-button-hover-state-layer-opacity: 0;
+  color: var(--topbar-text);
+  &:hover {
+    background-color: var(--topbar-button-hover-bg);
+    color: var(--topbar-button-hover-text);
+  }
+}
+
+/* Main */
+
+.main-content {
+  background-color: var(--content-bg);
+}
+
+.main-content__inner {
+  height: 100%;
+  padding: 24px;
+}

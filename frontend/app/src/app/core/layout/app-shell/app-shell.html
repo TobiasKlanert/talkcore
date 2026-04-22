@@ -1,0 +1,100 @@
+<div class="shell">
+  <mat-toolbar class="topbar" role="heading">
+    <div class="topbar__left">
+      <mat-icon fontSet="material-symbols-rounded">forum</mat-icon>
+      <h1 class="topbar__brand">TalkCore</h1>
+    </div>
+
+    <div class="topbar__center">
+      <mat-form-field appearance="outline" class="topbar__search">
+        <mat-icon fontSet="material-symbols-rounded" matPrefix>search</mat-icon>
+        <input matInput type="text" placeholder="Suchen" />
+      </mat-form-field>
+    </div>
+
+    <div class="topbar__right">
+      <button
+        mat-icon-button
+        type="button"
+        class="topbar__button standard-button"
+        aria-label="Anzeigestil ändern"
+        (click)="themeService.toggleTheme()"
+      >
+        <mat-icon fontSet="material-symbols-rounded">
+          {{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}
+        </mat-icon>
+      </button>
+      <button
+        matIconButton
+        class="topbar__button topbar__menu standard-button"
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <mat-icon fontSet="material-symbols-rounded">account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" class="topbar__menu">
+        @for (section of menuSections; track $index) {
+          @if (section.divider) {
+            <mat-divider class="nav__divider"></mat-divider>
+          }
+          @for (item of section.items; track item.label) {
+            <button mat-menu-item class="standard-button">
+              <mat-icon>{{ item.icon }}</mat-icon>
+              <span>{{ item.label }}</span>
+            </button>
+          }
+        }
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false" autosize>
+    <mat-sidenav class="sidenav" [class.sidenav--expanded]="sidenavExpanded()" opened mode="side">
+      <div class="nav-container">
+        <div class="sidenav__header">
+          <button
+            mat-icon-button
+            type="button"
+            class="sidenav__toggle standard-button"
+            [class.sidenav__toggle--active]="sidenavExpanded()"
+            [attr.aria-label]="sidenavExpanded() ? 'Navigation einfahren' : 'Navigation ausfahren'"
+            [attr.aria-expanded]="sidenavExpanded()"
+            (click)="toggleSidenav()"
+          >
+            <mat-icon fontSet="material-symbols-rounded">
+              {{ sidenavExpanded() ? 'left_panel_close' : 'left_panel_open' }}
+            </mat-icon>
+          </button>
+        </div>
+
+        <mat-divider class="nav__divider"></mat-divider>
+
+        @for (section of navSections; track $index) {
+          <nav class="nav">
+            @if (section.divider) {
+              <mat-divider class="nav__divider"></mat-divider>
+            }
+
+            @for (item of section.items; track item.route) {
+              <a
+                class="nav__item standard-button"
+                [routerLink]="item.route"
+                routerLinkActive="nav__item--active"
+                [attr.aria-label]="item.label"
+              >
+                <mat-icon fontSet="material-symbols-rounded">{{ item.icon }}</mat-icon>
+                <span class="nav__label">{{ item.label }}</span>
+              </a>
+            }
+          </nav>
+        }
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="main-content">
+      <main class="main-content__inner">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

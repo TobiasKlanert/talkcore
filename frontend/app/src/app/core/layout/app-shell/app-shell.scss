@@ -1,0 +1,163 @@
+@use '@angular/material' as mat;
+
+/* Topbar */
+
+.topbar__search {
+  width: min(100%, 520px);
+
+  @include mat.form-field-overrides(
+    (
+      container-height: var(--topbar-search-height),
+      outlined-container-shape: var(--topbar-search-radius),
+      outlined-outline-color: var(--topbar-search-border),
+      outlined-hover-outline-color: var(--topbar-search-border-hover),
+      outlined-focus-outline-color: var(--topbar-search-border-focus),
+    )
+  );
+}
+
+.topbar__search ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.sidenav__toggle--active {
+  color: var(--nav-item-active-text);
+}
+
+/* Content Area */
+
+.shell__content {
+  height: 100%;
+  background-color: var(--content-bg);
+}
+
+.sidenav-container {
+  height: 100%;
+  background-color: var(--content-bg);
+}
+
+.sidenav {
+  width: 72px;
+  border-right: 1px solid var(--sidenav-border);
+  background-color: var(--sidenav-bg);
+  color: var(--sidenav-text);
+  overflow: hidden;
+  transition: width 220ms ease;
+}
+
+.sidenav--expanded {
+  width: 240px;
+}
+
+.sidenav ::ng-deep .mat-drawer-inner-container {
+  overflow: hidden;
+}
+
+/* Navigation */
+
+.nav-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidenav__header {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+}
+
+.sidenav--expanded .sidenav__header {
+  justify-content: flex-end;
+}
+
+.sidenav__toggle {
+  --mat-icon-button-hover-state-layer-opacity: 0;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  color: var(--nav-item-text);
+
+  &:hover {
+    background-color: var(--nav-item-hover-bg);
+    color: var(--nav-item-hover-text);
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+}
+
+.nav:last-child {
+  margin-top: auto;
+  padding-bottom: 24px;
+}
+
+.nav__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 12px;
+  color: var(--nav-item-text);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  transition:
+    justify-content 220ms ease,
+    padding 220ms ease;
+
+  .sidenav:not(.sidenav--expanded) & {
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+
+  &:hover {
+    background-color: var(--nav-item-hover-bg);
+    color: var(--nav-item-hover-text);
+  }
+
+  &:active {
+    background-color: var(--nav-item-active-bg);
+    color: var(--nav-item-active-text);
+  }
+}
+
+.nav__label {
+  max-width: 140px;
+  opacity: 1;
+  overflow: hidden;
+  transition:
+    max-width 180ms ease,
+    opacity 140ms ease;
+}
+
+.sidenav:not(.sidenav--expanded) .nav__label {
+  max-width: 0;
+  opacity: 0;
+}
+
+.nav__item--active {
+  background-color: var(--nav-item-active-bg);
+  color: var(--nav-item-active-text);
+  mat-icon {
+    font-variation-settings:
+      'FILL' 1,
+      'wght' 600,
+      'GRAD' 0,
+      'opsz' 24;
+  }
+}
+
+.nav__divider {
+  @include mat.divider-overrides(
+    (
+      color: var(--shell-divider),
+    )
+  );
+}

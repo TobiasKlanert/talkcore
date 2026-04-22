@@ -1,0 +1,80 @@
+@use '@angular/material' as mat;
+
+@import 'material-symbols/rounded.css';
+@import './mixins';
+
+html {
+  height: 100%;
+}
+
+:root {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$blue-palette,
+        tertiary: mat.$cyan-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  @include menu-theme-overrides();
+
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+}
+
+:root.dark-theme {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$blue-palette,
+        tertiary: mat.$cyan-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  @include menu-theme-overrides();
+
+  color-scheme: dark;
+}
+
+/* roboto-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../assets/fonts/roboto-v51-latin-regular.woff2') format('woff2');
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+.standard-button {
+  @include hover-icon();
+  @include button-transition();
+}
+
+.center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

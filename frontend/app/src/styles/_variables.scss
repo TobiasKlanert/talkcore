@@ -1,0 +1,122 @@
+:root {
+  /* ========== DIMENSIONS ========== */
+
+  --topbar-search-height: 40px;
+  --topbar-search-radius: 32px;
+
+  --menu-radius: 16px;
+
+  /* ========== LIGHT THEME ========== */
+
+  /* Base */
+  --shell-bg: #f1f5f9;
+  --content-bg: #f8fbff;
+
+  /* Topbar */
+  --topbar-bg: #ffffff;
+  --topbar-text: #0f172a;
+
+  --topbar-button-hover-bg: #e2e8f0;
+  --topbar-button-hover-text: #0f172a;
+
+  --topbar-button-active-bg: rgba(59, 130, 246, 0.12);
+  --topbar-button-active-text: #2563eb;
+
+  --topbar-search-border: #e2e8f0;
+  --topbar-search-border-hover: #e2e8f0;
+  --topbar-search-border-focus: #2563eb;
+
+  /* Sidenav */
+  --sidenav-bg: #eaf1f8;
+  --sidenav-border: #e2e8f0;
+  --sidenav-text: #334155;
+
+  /* Navigation */
+  --nav-item-text: #475569;
+
+  --nav-item-hover-bg: #e2e8f0;
+  --nav-item-hover-text: #0f172a;
+
+  --nav-item-active-bg: rgba(59, 130, 246, 0.12);
+  --nav-item-active-text: #2563eb;
+
+  /* Divider */
+  --shell-divider: #e2e8f0;
+
+  /* Menu */
+  --menu-bg: #f8fafc;
+  --menu-text: #475569;
+  --menu-icon: #475569;
+
+  --menu-item-hover-bg: #e2e8f0;
+
+  --menu-border: #dbe4f0;
+  --menu-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+
+  /* Footer */
+  --foter-text: #475569;
+  --footer-hover-text: #0f172a;
+
+  /* Card */
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+:root.dark-theme {
+  /* ========== DARK THEME ========== */
+
+  /* Base */
+  --shell-bg: #020617;
+  --content-bg: #172235;
+
+  /* Topbar */
+  --topbar-bg: #020617;
+  --topbar-text: #e2e8f0;
+
+  --topbar-button-hover-bg: #1e293b;
+  --topbar-button-hover-text: #ffffff;
+
+  --topbar-button-active-bg: rgba(56, 189, 248, 0.16);
+  --topbar-button-active-text: #38bdf8;
+
+  --topbar-search-border: #1e293b;
+  --topbar-search-border-hover: #1e293b;
+  --topbar-search-border-focus: #38bdf8;
+
+  /* Sidenav */
+  --sidenav-bg: #0f172a;
+  --sidenav-border: #1e293b;
+  --sidenav-text: #cbd5f5;
+
+  /* Navigation */
+  --nav-item-text: #94a3b8;
+
+  --nav-item-hover-bg: #1e293b;
+  --nav-item-hover-text: #ffffff;
+
+  --nav-item-active-bg: rgba(56, 189, 248, 0.16);
+  --nav-item-active-text: #38bdf8;
+
+  /* Divider */
+  --shell-divider: #1e293b;
+
+  /* Menu */
+  --menu-bg: #111827;
+  --menu-text: #94a3b8;
+  --menu-icon: #94a3b8;
+
+  --menu-item-hover-bg: rgba(56, 189, 248, 0.14);
+
+  --menu-border: rgba(148, 163, 184, 0.18);
+  --menu-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+
+  /* Footer */
+  --foter-text: #94a3b8;
+  --footer-hover-text: #ffffff;
+
+  /* Card */
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}

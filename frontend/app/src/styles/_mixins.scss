@@ -1,0 +1,35 @@
+@mixin menu-theme-overrides() {
+  @include mat.menu-overrides(
+    (
+      container-color: var(--menu-bg),
+      item-label-text-color: var(--menu-text),
+      item-icon-color: var(--menu-icon),
+      item-hover-state-layer-color: var(--menu-item-hover-bg),
+      item-focus-state-layer-color: var(--menu-item-hover-bg),
+      container-shape: var(--menu-radius),
+      container-elevation-shadow: var(--menu-shadow),
+    )
+  );
+}
+
+@mixin hover-icon() {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+
+  &:hover {
+    font-variation-settings:
+      'FILL' 1,
+      'wght' 600,
+      'GRAD' 0,
+      'opsz' 24;
+  }
+}
+
+@mixin button-transition() {
+  transition:
+    font-variation-settings 125ms ease-in-out,
+    background-color 125ms ease-in-out;
+}
