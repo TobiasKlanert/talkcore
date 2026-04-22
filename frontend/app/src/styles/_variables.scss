@@ -56,6 +56,11 @@
   /* Footer */
   --foter-text: #475569;
   --footer-hover-text: #0f172a;
+
+  /* Card */
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
 :root.dark-theme {
@@ -109,4 +114,9 @@
   /* Footer */
   --foter-text: #94a3b8;
   --footer-hover-text: #ffffff;
+
+  /* Card */
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
