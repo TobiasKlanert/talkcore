@@ -61,6 +61,24 @@
   --card-bg: #ffffff;
   --card-border: #e2e8f0;
   --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+
+  /* Auth */
+  --auth-title-text: #0f172a;
+  --auth-body-text: #475569;
+  --auth-muted-text: #64748b;
+  --auth-link-text: #2563eb;
+  --auth-link-hover-text: #1d4ed8;
+  --auth-form-field-bg: #f8fbff;
+  --auth-form-field-border: #dbe4f0;
+  --auth-form-field-focus: #2563eb;
+  --auth-form-field-text: #0f172a;
+  --auth-form-field-label: #64748b;
+  --auth-submit-bg: #2563eb;
+  --auth-submit-hover-bg: #1d4ed8;
+  --auth-submit-text: #ffffff;
+  --auth-error-bg: rgba(239, 68, 68, 0.08);
+  --auth-error-border: rgba(239, 68, 68, 0.2);
+  --auth-error-text: #b91c1c;
 }
 
 :root.dark-theme {
@@ -119,4 +137,22 @@
   --card-bg: #1e293b;
   --card-border: #334155;
   --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  /* Auth */
+  --auth-title-text: #f8fafc;
+  --auth-body-text: #cbd5e1;
+  --auth-muted-text: #94a3b8;
+  --auth-link-text: #7dd3fc;
+  --auth-link-hover-text: #bae6fd;
+  --auth-form-field-bg: rgba(15, 23, 42, 0.65);
+  --auth-form-field-border: #334155;
+  --auth-form-field-focus: #38bdf8;
+  --auth-form-field-text: #f8fafc;
+  --auth-form-field-label: #94a3b8;
+  --auth-submit-bg: #0ea5e9;
+  --auth-submit-hover-bg: #0284c7;
+  --auth-submit-text: #e0f2fe;
+  --auth-error-bg: rgba(248, 113, 113, 0.12);
+  --auth-error-border: rgba(248, 113, 113, 0.24);
+  --auth-error-text: #fecaca;
 }
