@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, of } from 'rxjs';
 
 import { LoginRequest, LoginResponse, User } from '../models/auth.models';
 
@@ -23,7 +23,20 @@ export class AuthService {
     );
   }
 
-  logout(): void {
+  logout(): Observable<void> {
+    const refreshToken = localStorage.getItem(this.REFRESH_TOKEN_KEY);
+
+    if (!refreshToken) {
+      this.clearLocalData();
+      return of(void 0);
+    }
+
+    return this.http.post<void>(`${this.apiUrl}/logout/`, {
+      refresh: refreshToken,
+    });
+  }
+
+  clearLocalData(): void {
     localStorage.removeItem(this.ACCESS_TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);

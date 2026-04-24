@@ -97,7 +97,16 @@ export class AppShell {
   }
 
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe({
+      next: () => {
+        this.authService.clearLocalData();
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        // fallback: trotzdem lokal logouten
+        this.authService.clearLocalData();
+        this.router.navigate(['/login']);
+      },
+    });
   }
 }
