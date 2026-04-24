@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .login-page {
   display: flex;
   flex-direction: column;
@@ -11,15 +13,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-.login-page__eyebrow {
-  margin: 0;
-  color: var(--auth-link-text);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .login-page__title {
@@ -44,10 +37,23 @@
 .login-form__field {
   width: 100%;
 
-  --mat-sys-on-surface: var(--auth-form-field-text);
-  --mat-sys-on-surface-variant: var(--auth-form-field-label);
-  --mat-sys-outline: var(--auth-form-field-border);
-  --mat-sys-primary: var(--auth-form-field-focus);
+  @include mat.form-field-overrides(
+    (
+      outlined-container-shape: 1rem,
+      outlined-input-text-color: var(--auth-form-field-text),
+      outlined-label-text-color: var(--auth-form-field-label),
+      outlined-outline-color: var(--auth-form-field-border),
+      outlined-hover-outline-color: var(--auth-form-field-hover),
+      outlined-focus-outline-color: var(--auth-form-field-focus),
+      outlined-focus-label-text-color: var(--auth-form-field-focus),
+      outlined-error-outline-color: var(--auth-form-field-error-border),
+      outlined-error-hover-outline-color: var(--auth-form-field-error-hover),
+      outlined-error-label-text-color: var(--auth-form-field-error-label),
+      outlined-error-hover-label-text-color: var(--auth-form-field-error-hover-label),
+      outlined-error-focus-outline-color: var(--auth-form-field-error-focus-border),
+      outlined-error-focus-label-text-color: var(--auth-form-field-error-focus-label),
+    )
+  );
 }
 
 .login-form__field ::ng-deep .mat-mdc-text-field-wrapper {
@@ -67,6 +73,12 @@
   gap: 1rem;
   flex-wrap: wrap;
   color: var(--auth-muted-text);
+
+  @include mat.checkbox-overrides((
+    selected-icon-color: var(--auth-form-field-focus),
+    selected-hover-icon-color: var(--auth-checkbox-hover),
+    selected-focus-icon-color: var(--auth-checkbox-focus),
+  ))
 }
 
 .login-form__aux-link,
@@ -97,14 +109,19 @@
   min-height: 3rem;
   margin-top: 0.25rem;
   border-radius: 999px;
-  background: var(--auth-submit-bg);
-  color: var(--auth-submit-text);
   font-weight: 700;
   letter-spacing: 0.01em;
   box-shadow: none;
   transition:
     background-color 0.2s ease,
     transform 0.2s ease;
+
+  @include mat.button-overrides(
+    (
+      filled-container-color: var(--auth-submit-bg),
+      filled-label-text-color: var(--auth-submit-text),
+    )
+  );
 }
 
 .login-form__submit:hover:not(:disabled) {
