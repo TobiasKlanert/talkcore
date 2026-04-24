@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { ThemeService } from '@core/services/theme.service';
+import { AuthService } from '@core/services/auth.service';
+import { Router } from '@angular/router';
 
 type Theme = 'light' | 'dark';
 
@@ -35,24 +37,24 @@ type Theme = 'light' | 'dark';
 export class AppShell {
   protected readonly themeService = inject(ThemeService);
   protected readonly sidenavExpanded = signal(false);
+  private readonly authService = inject(AuthService);
 
-  /* private currentTheme: Theme = 'light';
-  isDark: boolean | null = null; */
+  constructor(private router: Router) {}
 
   menuSections = [
     {
       items: [
-        { label: 'Profil', icon: 'account_circle' },
-        { label: 'Einstellungen', icon: 'settings' },
+        { label: 'Profil', icon: 'account_circle', action: 'openProfile' },
+        { label: 'Einstellungen', icon: 'settings', action: 'openSettings' },
       ],
     },
     {
       divider: true,
-      items: [{ label: 'Über TalkCore', icon: 'info' }],
+      items: [{ label: 'Über TalkCore', icon: 'info', action: 'openInfo' }],
     },
     {
       divider: true,
-      items: [{ label: 'Logout', icon: 'logout' }],
+      items: [{ label: 'Logout', icon: 'logout', action: 'logout' }],
     },
   ];
 
@@ -75,5 +77,27 @@ export class AppShell {
 
   toggleSidenav(): void {
     this.sidenavExpanded.update((expanded) => !expanded);
+  }
+
+  onMenuClick(item: any): void {
+    switch (item.action) {
+      case 'openProfile':
+        // this.openProfile();
+        break;
+      case 'openSettings':
+        // this.openSettings();
+        break;
+      case 'openInfo':
+        // this.openInfo();
+        break;
+      case 'logout':
+        this.logout();
+        break;
+    }
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
