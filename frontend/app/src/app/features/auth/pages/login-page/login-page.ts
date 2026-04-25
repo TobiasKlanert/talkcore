@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +29,7 @@ export class LoginPage {
 
   email = '';
   password = '';
-  errorMessage = '';
+  errorMessage = signal('');
   rememberEmail = false;
 
   constructor() {
@@ -59,7 +59,7 @@ export class LoginPage {
   }
 
   onSubmit(): void {
-    this.errorMessage = '';
+    this.errorMessage.set('');
 
     if (this.rememberEmail) {
       localStorage.setItem(this.rememberedEmailKey, this.email);
@@ -76,8 +76,8 @@ export class LoginPage {
         next: () => {
           this.router.navigate(['/chat']);
         },
-        error: (error) => {
-          this.errorMessage = error?.error?.detail || 'Login fehlgeschlagen.';
+        error: () => {
+          this.errorMessage.set('Login fehlgeschlagen. E-Mail oder Passwort falsch.');
         },
       });
   }

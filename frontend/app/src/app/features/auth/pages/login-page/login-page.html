@@ -1,9 +1,7 @@
 <section class="login-page">
   <div class="login-page__header">
     <h2 class="login-page__title">Login</h2>
-    <p class="login-page__subtitle">
-      Melde dich mit deiner E-Mail-Adresse und deinem Passwort an.
-    </p>
+    <p class="login-page__subtitle">Melde dich mit deiner E-Mail-Adresse und deinem Passwort an.</p>
   </div>
 
   <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
@@ -19,7 +17,11 @@
         email
         [(ngModel)]="email"
         (ngModelChange)="onEmailChange($event)"
+        #emailModel="ngModel"
       />
+      @if (emailModel.invalid && emailModel.touched) {
+        <mat-error>Bitte gib eine gültige E-Mail-Adresse ein.</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="login-form__field">
@@ -32,7 +34,11 @@
         autocomplete="current-password"
         required
         [(ngModel)]="password"
+        #passwordModel="ngModel"
       />
+      @if (passwordModel.touched) {
+        <mat-error>Bitte gib dein Passwort ein.</mat-error>
+      }
     </mat-form-field>
 
     <div class="login-form__options">
@@ -44,27 +50,20 @@
         E-Mail-Adresse merken
       </mat-checkbox>
 
-      <a routerLink="/auth/reset-password" class="login-form__aux-link">
-        Passwort vergessen
-      </a>
+      <a routerLink="/reset-password" class="login-form__aux-link"> Passwort vergessen </a>
     </div>
 
-    @if (errorMessage) {
-      <p class="login-form__error" role="alert">{{ errorMessage }}</p>
+    @if (errorMessage()) {
+      <p class="login-form__error" role="alert">{{ errorMessage() }}</p>
     }
 
-    <button
-      mat-flat-button
-      type="submit"
-      class="login-form__submit"
-      [disabled]="loginForm.invalid"
-    >
+    <button mat-flat-button type="submit" class="login-form__submit" [disabled]="loginForm.invalid">
       Anmelden
     </button>
   </form>
 
   <div class="login-page__footer">
     <span>Noch kein Konto?</span>
-    <a routerLink="/auth/register">Jetzt registrieren</a>
+    <a routerLink="/register">Jetzt registrieren</a>
   </div>
 </section>
