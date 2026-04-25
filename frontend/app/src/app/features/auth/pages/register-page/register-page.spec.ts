@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { of } from 'rxjs';
 
 import { RegisterPage } from './register-page';
+import { AuthService } from '@core/services/auth.service';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -8,7 +11,16 @@ describe('RegisterPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegisterPage]
+      imports: [RegisterPage],
+      providers: [
+        provideRouter([]),
+        {
+          provide: AuthService,
+          useValue: {
+            register: () => of({ detail: 'Registration successful.' }),
+          },
+        },
+      ],
     })
     .compileComponents();
 

@@ -19,3 +19,14 @@ export interface LoginResponse {
   refresh: string;
   user: User;
 }
+
+export interface RegisterRequest {
+  display_name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+}
+
+export interface RegisterResponse {
+  detail: string;
+}

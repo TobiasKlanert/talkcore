@@ -2,7 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, of } from 'rxjs';
 
-import { LoginRequest, LoginResponse, User } from '../models/auth.models';
+import {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+  User,
+} from '../models/auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +27,10 @@ export class AuthService {
         this.setSession(response);
       }),
     );
+  }
+
+  register(payload: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/register/`, payload);
   }
 
   logout(): Observable<void> {

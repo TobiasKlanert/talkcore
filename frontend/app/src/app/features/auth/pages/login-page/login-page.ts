@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '@core/services/auth.service';
+import { AuthFormLayout } from '../../components/auth-form-layout/auth-form-layout';
 
 @Component({
   selector: 'app-login-page',
@@ -18,9 +19,9 @@ import { AuthService } from '@core/services/auth.service';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    AuthFormLayout,
   ],
   templateUrl: './login-page.html',
-  styleUrl: './login-page.scss',
 })
 export class LoginPage {
   private readonly rememberedEmailKey = 'remembered_login_email';

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
 import { LoginPage } from './login-page';
@@ -10,9 +10,19 @@ describe('LoginPage', () => {
   let fixture: ComponentFixture<LoginPage>;
 
   beforeEach(async () => {
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: vi.fn(() => null),
+        setItem: vi.fn(),
+        removeItem: vi.fn(),
+      },
+      configurable: true,
+    });
+
     await TestBed.configureTestingModule({
       imports: [LoginPage],
       providers: [
+        provideRouter([]),
         {
           provide: AuthService,
           useValue: {
@@ -26,12 +36,6 @@ describe('LoginPage', () => {
                   email: 'test@example.com',
                 },
               }),
-          },
-        },
-        {
-          provide: Router,
-          useValue: {
-            navigate: jasmine.createSpy('navigate'),
           },
         },
       ],
