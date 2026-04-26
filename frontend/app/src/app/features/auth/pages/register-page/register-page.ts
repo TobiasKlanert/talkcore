@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +23,7 @@ import { AuthFormLayout } from '../../components/auth-form-layout/auth-form-layo
 })
 export class RegisterPage {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   username = '';
   email = '';
@@ -52,10 +53,8 @@ export class RegisterPage {
         password_confirm: this.passwordConfirm,
       })
       .subscribe({
-        next: (response) => {
-          this.successMessage.set(
-            response.detail || 'Registrierung erfolgreich. Bitte prüfe dein E-Mail-Postfach.',
-          );
+        next: () => {
+          this.router.navigate(['/register-success']);
         },
         error: () => {
           this.errorMessage.set('Registrierung fehlgeschlagen. Bitte prüfe deine Eingaben.');
