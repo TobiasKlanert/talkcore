@@ -20,11 +20,34 @@ export const AUTH_ROUTES: Routes = [
   {
     path: 'register-success',
     canActivate: [guestGuard],
-    loadComponent: () => import('./pages/register-success-page/register-success-page').then((m) => m.RegisterSuccessPage),
+    loadComponent: () =>
+      import('./pages/register-success-page/register-success-page').then(
+        (m) => m.RegisterSuccessPage,
+      ),
   },
   {
     path: 'activate',
     canActivate: [guestGuard],
     loadComponent: () => import('./pages/activate-page/activate-page').then((m) => m.ActivatePage),
+  },
+  {
+    path: 'forgot-password',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('./pages/forgot-password-page/forgot-password-page').then((m) => m.ForgotPasswordPage),
+  },
+  {
+    path: 'forgot-password-success',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('./pages/forgot-password-success-page/forgot-password-success-page').then(
+        (m) => m.ForgotPasswordSuccessPage,
+      ),
+  },
+  {
+    path: 'reset-password',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('./pages/reset-password-page/reset-password-page').then((m) => m.ResetPasswordPage),
   },
 ];

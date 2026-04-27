@@ -6,6 +6,5 @@ import { AuthFormLayout } from '../../components/auth-form-layout/auth-form-layo
   selector: 'app-register-success-page',
   imports: [AuthFormLayout, RouterLink],
   templateUrl: './register-success-page.html',
-  styleUrl: './register-success-page.scss',
 })
 export class RegisterSuccessPage {}
