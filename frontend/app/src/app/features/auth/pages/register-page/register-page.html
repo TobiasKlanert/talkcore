@@ -79,17 +79,11 @@
       <p class="auth-form__message auth-form__message--error" role="alert">{{ errorMessage() }}</p>
     }
 
-    @if (successMessage()) {
-      <p class="auth-form__message auth-form__message--success" role="status">
-        {{ successMessage() }}
-      </p>
-    }
-
     <button
       mat-flat-button
       type="submit"
       class="auth-form__submit"
-      [disabled]="registerForm.invalid || !passwordsMatch"
+      [disabled]="registerForm.invalid"
     >
       Konto erstellen
     </button>

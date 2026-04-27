@@ -30,7 +30,6 @@ export class RegisterPage {
   password = '';
   passwordConfirm = '';
   errorMessage = signal('');
-  successMessage = signal('');
 
   get passwordsMatch(): boolean {
     return this.password === this.passwordConfirm;
@@ -38,7 +37,6 @@ export class RegisterPage {
 
   onSubmit(): void {
     this.errorMessage.set('');
-    this.successMessage.set('');
 
     if (!this.passwordsMatch) {
       this.errorMessage.set('Die Passwörter stimmen nicht überein.');
