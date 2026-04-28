@@ -1,3 +1,5 @@
+@import './mixins';
+
 .shell {
   display: grid;
   grid-template-rows: 64px 1fr;
@@ -59,4 +61,8 @@ mat-toolbar.topbar.mat-toolbar-single-row {
 .main-content__inner {
   height: 100%;
   padding: 24px;
+}
+
+.main-content__center {
+  @include d-flex;
 }
