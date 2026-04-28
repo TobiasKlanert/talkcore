@@ -22,7 +22,6 @@ import { AuthService } from '@core/services/auth.service';
     AuthFormLayout,
   ],
   templateUrl: './forgot-password-page.html',
-  styleUrl: './forgot-password-page.scss',
 })
 export class ForgotPasswordPage {
   private readonly authService = inject(AuthService);
@@ -31,12 +30,22 @@ export class ForgotPasswordPage {
   email = '';
   errorMessage = signal('');
 
+  ngOnInit(): void {
+    const emailFromState = history.state.email;
+
+    if (emailFromState) {
+      this.email = emailFromState;
+    }
+  }
+
   onSubmit(): void {
     this.errorMessage.set('');
 
     this.authService.requestPasswordReset(this.email).subscribe({
       next: () => {
-        this.router.navigate(['/forgot-password-success']);
+        this.router.navigate(['/forgot-password-success'], {
+          state: { email: this.email },
+        });
       },
       error: () => {
         this.errorMessage.set(
