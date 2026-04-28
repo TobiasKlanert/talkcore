@@ -30,3 +30,14 @@ export interface RegisterRequest {
 export interface RegisterResponse {
   detail: string;
 }
+
+export interface ConfirmPasswordResetRequest {
+  uid: string;
+  token: string;
+  password: string;
+  password_confirm: string;
+}
+
+export interface DetailResponse {
+  detail: string;
+}

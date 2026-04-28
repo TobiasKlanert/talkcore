@@ -21,6 +21,8 @@ def test_reset_password_request_existing_email_sends_email_and_returns_200(api_c
 
     assert response.status_code == 200
     assert len(mailoutbox) == 1
+    assert "/reset-password?uid=" in mailoutbox[0].body
+    assert "&token=" in mailoutbox[0].body
 
 
 def test_reset_password_request_non_existing_email_still_returns_200(api_client, mailoutbox):
