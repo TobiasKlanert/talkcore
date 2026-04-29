@@ -38,6 +38,11 @@ export interface ConfirmPasswordResetRequest {
   password_confirm: string;
 }
 
+export interface ActivateAccountRequest {
+  uid: string;
+  token: string;
+}
+
 export interface DetailResponse {
   detail: string;
 }

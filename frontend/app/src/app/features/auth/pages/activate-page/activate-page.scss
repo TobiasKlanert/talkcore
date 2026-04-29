@@ -1,0 +1,6 @@
+@import '@styles/_mixins.scss';
+
+.auth-form__submit-container {
+    @include d-flex();
+    margin-top: 1rem;
+}

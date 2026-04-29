@@ -7,9 +7,7 @@ from django.contrib.auth.tokens import (
     default_token_generator,
 )
 from django.core.mail import EmailMultiAlternatives, send_mail
-from django.http import HttpResponse
 from django.template.loader import render_to_string
-from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import status
@@ -38,14 +36,13 @@ class RegisterView(APIView):
         uid = urlsafe_base64_encode(force_bytes(str(user.pk)))
         token = default_token_generator.make_token(user)
 
-        activation_path = reverse("activate_account")
-
+        frontend_url = settings.FRONTEND_URL.rstrip("/")
         params = urlencode({
             "uid": uid,
             "token": token,
         })
 
-        activation_url = f"{request.scheme}://{request.get_host()}{activation_path}?{params}"
+        activation_url = f"{frontend_url}/activate?{params}"
         
         context = {
             "activation_url": activation_url,

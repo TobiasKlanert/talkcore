@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap, of } from 'rxjs';
 
 import {
+  ActivateAccountRequest,
   ConfirmPasswordResetRequest,
   DetailResponse,
   LoginRequest,
@@ -50,6 +51,15 @@ export class AuthService {
 
   requestPasswordReset(email: string): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/reset-password/`, { email });
+  }
+
+  activateAccount(payload: ActivateAccountRequest): Observable<DetailResponse> {
+    return this.http.get<DetailResponse>(`${this.apiUrl}/activate/`, {
+      params: {
+        uid: payload.uid,
+        token: payload.token,
+      },
+    });
   }
 
   confirmPasswordReset(payload: ConfirmPasswordResetRequest): Observable<DetailResponse> {

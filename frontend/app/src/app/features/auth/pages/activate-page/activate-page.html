@@ -1,1 +1,25 @@
-<p>activate-page works!</p>
+<app-auth-form-layout title="Konto aktivieren" subtitle="Wir prüfen deinen Aktivierungslink">
+  <main authFormContent>
+    @if (isActivating()) {
+      <p class="auth-form__message" role="status">Dein Konto wird aktiviert ...</p>
+    }
+
+    @if (errorMessage()) {
+      <p class="auth-form__message auth-form__message--error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    @if (successMessage()) {
+      <p class="auth-form__message auth-form__message--success" role="status">
+        {{ successMessage() }}
+      </p>
+      <div class="auth-form__submit-container">
+        <a mat-flat-button routerLink="/login" class="auth-form__submit">Zum Login</a>
+      </div>
+    }
+  </main>
+
+  <ng-container authFormFooter>
+    <span>Schon aktiviert?</span>
+    <a routerLink="/login">Jetzt anmelden</a>
+  </ng-container>
+</app-auth-form-layout>
