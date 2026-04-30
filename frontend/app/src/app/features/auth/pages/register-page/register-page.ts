@@ -52,7 +52,9 @@ export class RegisterPage {
       })
       .subscribe({
         next: () => {
-          this.router.navigate(['/register-success']);
+          this.router.navigate(['/register-success'], {
+            state: { fromRegisterSubmit: true },
+          });
         },
         error: () => {
           this.errorMessage.set('Registrierung fehlgeschlagen. Bitte prüfe deine Eingaben.');

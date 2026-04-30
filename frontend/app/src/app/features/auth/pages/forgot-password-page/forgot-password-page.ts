@@ -31,7 +31,7 @@ export class ForgotPasswordPage {
   errorMessage = signal('');
 
   ngOnInit(): void {
-    const emailFromState = history.state.email;
+    const emailFromState = history.state?.email;
 
     if (emailFromState) {
       this.email = emailFromState;
@@ -44,7 +44,7 @@ export class ForgotPasswordPage {
     this.authService.requestPasswordReset(this.email).subscribe({
       next: () => {
         this.router.navigate(['/forgot-password-success'], {
-          state: { email: this.email },
+          state: { email: this.email, fromForgotPasswordSubmit: true },
         });
       },
       error: () => {

@@ -48,7 +48,13 @@
         E-Mail-Adresse merken
       </mat-checkbox>
 
-      <a routerLink="/forgot-password" class="auth-form__aux-link"> Passwort vergessen </a>
+      <a
+        routerLink="/forgot-password"
+        [state]="{ fromLoginLink: true }"
+        class="auth-form__aux-link"
+      >
+        Passwort vergessen
+      </a>
     </div>
 
     @if (errorMessage()) {

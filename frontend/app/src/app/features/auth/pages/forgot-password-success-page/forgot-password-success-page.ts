@@ -9,5 +9,5 @@ import { AuthFormLayout } from '../../components/auth-form-layout/auth-form-layo
   styleUrl: './forgot-password-success-page.scss',
 })
 export class ForgotPasswordSuccessPage {
-  email = history.state.email ?? '';
+  email = history.state?.email ?? '';
 }
