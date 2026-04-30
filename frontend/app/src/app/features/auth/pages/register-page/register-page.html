@@ -1,0 +1,96 @@
+<app-auth-form-layout
+  title="Registrieren"
+  subtitle="Erstelle dein Konto mit Benutzername, E-Mail-Adresse und Passwort."
+>
+  <form authFormContent class="auth-form" (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <mat-form-field appearance="outline" class="auth-form__field">
+      <mat-label>Benutzername</mat-label>
+      <mat-icon matPrefix fontSet="material-symbols-rounded">person</mat-icon>
+      <input
+        matInput
+        type="text"
+        name="username"
+        autocomplete="username"
+        required
+        [(ngModel)]="username"
+        #usernameModel="ngModel"
+      />
+      @if (usernameModel.invalid && usernameModel.touched) {
+        <mat-error>Bitte gib einen Benutzernamen ein.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="auth-form__field">
+      <mat-label>E-Mail-Adresse</mat-label>
+      <mat-icon matPrefix fontSet="material-symbols-rounded">mail</mat-icon>
+      <input
+        matInput
+        type="email"
+        name="email"
+        autocomplete="email"
+        required
+        email
+        [(ngModel)]="email"
+        #emailModel="ngModel"
+      />
+      @if (emailModel.invalid && emailModel.touched) {
+        <mat-error>Bitte gib eine gültige E-Mail-Adresse ein.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="auth-form__field">
+      <mat-label>Passwort</mat-label>
+      <mat-icon matPrefix fontSet="material-symbols-rounded">lock</mat-icon>
+      <input
+        matInput
+        type="password"
+        name="password"
+        autocomplete="new-password"
+        required
+        minlength="8"
+        [(ngModel)]="password"
+        #passwordModel="ngModel"
+      />
+      @if (passwordModel.invalid && passwordModel.touched) {
+        <mat-error>Bitte gib ein Passwort mit mindestens 8 Zeichen ein.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="auth-form__field">
+      <mat-label>Passwort bestätigen</mat-label>
+      <mat-icon matPrefix fontSet="material-symbols-rounded">lock_reset</mat-icon>
+      <input
+        matInput
+        type="password"
+        name="passwordConfirm"
+        autocomplete="new-password"
+        required
+        [(ngModel)]="passwordConfirm"
+        #passwordConfirmModel="ngModel"
+      />
+      @if (passwordConfirmModel.touched && !passwordsMatch) {
+        <mat-error>Die Passwörter stimmen nicht überein.</mat-error>
+      } @else if (passwordConfirmModel.invalid && passwordConfirmModel.touched) {
+        <mat-error>Bitte bestätige dein Passwort.</mat-error>
+      }
+    </mat-form-field>
+
+    @if (errorMessage()) {
+      <p class="auth-form__message auth-form__message--error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <button
+      mat-flat-button
+      type="submit"
+      class="auth-form__submit"
+      [disabled]="registerForm.invalid"
+    >
+      Konto erstellen
+    </button>
+  </form>
+
+  <ng-container authFormFooter>
+    <span>Schon registriert?</span>
+    <a routerLink="/login">Zum Login</a>
+  </ng-container>
+</app-auth-form-layout>

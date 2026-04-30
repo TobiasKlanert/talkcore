@@ -1,22 +1,27 @@
+from urllib.parse import urlencode
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.tokens import default_token_generator, PasswordResetTokenGenerator
+from django.contrib.auth.tokens import (
+    PasswordResetTokenGenerator,
+    default_token_generator,
+)
 from django.core.mail import EmailMultiAlternatives, send_mail
 from django.template.loader import render_to_string
-from django.http import HttpResponse
-from django.urls import reverse
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from urllib.parse import urlencode
-
-from .serializers import RegisterSerializer, LoginSerializer, LogoutSerializer, ConfirmPasswordSerializer
+from .serializers import (
+    ConfirmPasswordSerializer,
+    LoginSerializer,
+    LogoutSerializer,
+    RegisterSerializer,
+)
 
 User = get_user_model()
 
@@ -31,14 +36,13 @@ class RegisterView(APIView):
         uid = urlsafe_base64_encode(force_bytes(str(user.pk)))
         token = default_token_generator.make_token(user)
 
-        activation_path = reverse("activate_account")
-
+        frontend_url = settings.FRONTEND_URL.rstrip("/")
         params = urlencode({
             "uid": uid,
             "token": token,
         })
 
-        activation_url = f"{request.scheme}://{request.get_host()}{activation_path}?{params}"
+        activation_url = f"{frontend_url}/activate?{params}"
         
         context = {
             "activation_url": activation_url,
@@ -135,7 +139,12 @@ class ResetPasswordView(APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = PasswordResetTokenGenerator().make_token(user)
 
-            reset_url = f"{settings.FRONTEND_URL}/reset-password?uid={uid}&token={token}"
+            frontend_url = settings.FRONTEND_URL.rstrip("/")
+            params = urlencode({
+                "uid": uid,
+                "token": token,
+            })
+            reset_url = f"{frontend_url}/reset-password?{params}"
 
             send_mail(
                 subject="Reset your TalkCore password",
@@ -143,6 +152,9 @@ class ResetPasswordView(APIView):
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user.email],
             )
+
+            # for development only -> remove in production
+            print("RESET PASSWORD URL:", reset_url)
 
         except User.DoesNotExist:
             pass

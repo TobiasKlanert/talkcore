@@ -38,7 +38,7 @@
             <mat-divider class="nav__divider"></mat-divider>
           }
           @for (item of section.items; track item.label) {
-            <button mat-menu-item class="standard-button">
+            <button mat-menu-item class="standard-button" (click)="onMenuClick(item)">
               <mat-icon>{{ item.icon }}</mat-icon>
               <span>{{ item.label }}</span>
             </button>

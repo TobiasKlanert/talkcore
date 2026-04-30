@@ -1,8 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, of } from 'rxjs';
 
-import { LoginRequest, LoginResponse, User } from '../models/auth.models';
+import {
+  ActivateAccountRequest,
+  ConfirmPasswordResetRequest,
+  DetailResponse,
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+  User,
+} from '../models/auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +32,41 @@ export class AuthService {
     );
   }
 
-  logout(): void {
+  register(payload: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/register/`, payload);
+  }
+
+  logout(): Observable<void> {
+    const refreshToken = localStorage.getItem(this.REFRESH_TOKEN_KEY);
+
+    if (!refreshToken) {
+      this.clearLocalData();
+      return of(void 0);
+    }
+
+    return this.http.post<void>(`${this.apiUrl}/logout/`, {
+      refresh: refreshToken,
+    });
+  }
+
+  requestPasswordReset(email: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/reset-password/`, { email });
+  }
+
+  activateAccount(payload: ActivateAccountRequest): Observable<DetailResponse> {
+    return this.http.get<DetailResponse>(`${this.apiUrl}/activate/`, {
+      params: {
+        uid: payload.uid,
+        token: payload.token,
+      },
+    });
+  }
+
+  confirmPasswordReset(payload: ConfirmPasswordResetRequest): Observable<DetailResponse> {
+    return this.http.post<DetailResponse>(`${this.apiUrl}/confirm-password/`, payload);
+  }
+
+  clearLocalData(): void {
     localStorage.removeItem(this.ACCESS_TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);

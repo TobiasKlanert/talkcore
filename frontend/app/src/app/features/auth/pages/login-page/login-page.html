@@ -1,0 +1,73 @@
+<app-auth-form-layout
+  title="Login"
+  subtitle="Melde dich mit deiner E-Mail-Adresse und deinem Passwort an."
+>
+  <form authFormContent class="auth-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <mat-form-field appearance="outline" class="auth-form__field">
+      <mat-label>E-Mail-Adresse</mat-label>
+      <mat-icon matPrefix fontSet="material-symbols-rounded">mail</mat-icon>
+      <input
+        matInput
+        type="email"
+        name="email"
+        autocomplete="email"
+        required
+        email
+        [(ngModel)]="email"
+        (ngModelChange)="onEmailChange($event)"
+        #emailModel="ngModel"
+      />
+      @if (emailModel.invalid && emailModel.touched) {
+        <mat-error>Bitte gib eine gültige E-Mail-Adresse ein.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="auth-form__field">
+      <mat-label>Passwort</mat-label>
+      <mat-icon matPrefix fontSet="material-symbols-rounded">lock</mat-icon>
+      <input
+        matInput
+        type="password"
+        name="password"
+        autocomplete="current-password"
+        required
+        [(ngModel)]="password"
+        #passwordModel="ngModel"
+      />
+      @if (passwordModel.touched) {
+        <mat-error>Bitte gib dein Passwort ein.</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="auth-form__options">
+      <mat-checkbox
+        name="rememberEmail"
+        [(ngModel)]="rememberEmail"
+        (change)="onRememberEmailChange()"
+      >
+        E-Mail-Adresse merken
+      </mat-checkbox>
+
+      <a
+        routerLink="/forgot-password"
+        [state]="{ fromLoginLink: true }"
+        class="auth-form__aux-link"
+      >
+        Passwort vergessen
+      </a>
+    </div>
+
+    @if (errorMessage()) {
+      <p class="auth-form__message auth-form__message--error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <button mat-flat-button type="submit" class="auth-form__submit" [disabled]="loginForm.invalid">
+      Anmelden
+    </button>
+  </form>
+
+  <ng-container authFormFooter>
+    <span>Noch kein Konto?</span>
+    <a routerLink="/register">Jetzt registrieren</a>
+  </ng-container>
+</app-auth-form-layout>

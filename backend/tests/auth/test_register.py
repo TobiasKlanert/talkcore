@@ -1,6 +1,7 @@
 import pytest
 
 from django.contrib.auth import get_user_model
+from django.test import override_settings
 
 from rest_framework.test import APIClient
 
@@ -29,6 +30,23 @@ def test_register_success_creates_inactive_user_and_sends_activation_email(
     assert user.display_name == payload["display_name"]
     assert user.is_active is False
     assert len(mailoutbox) == 1
+
+
+@override_settings(FRONTEND_URL="http://localhost:4200")
+def test_register_activation_email_links_to_frontend(api_client, mailoutbox):
+    payload = {
+        "email": "user@example.com",
+        "display_name": "Tobias",
+        "password": "StrongPassword123",
+        "password_confirm": "StrongPassword123",
+    }
+
+    response = api_client.post(REGISTER_URL, payload, format="json")
+
+    assert response.status_code == 201
+    assert len(mailoutbox) == 1
+    assert "http://localhost:4200/activate?uid=" in mailoutbox[0].body
+    assert "/api/activate/" not in mailoutbox[0].body
 
 
 def test_register_fails_when_passwords_do_not_match(api_client):

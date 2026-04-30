@@ -1,0 +1,12 @@
+<section class="auth-form-layout">
+  <header class="auth-form-layout__header">
+    <h2 class="auth-form-layout__title">{{ title() }}</h2>
+    <p class="auth-form-layout__subtitle">{{ subtitle() }}</p>
+  </header>
+
+  <ng-content select="[authFormContent]"></ng-content>
+
+  <footer class="auth-form-layout__footer">
+    <ng-content select="[authFormFooter]"></ng-content>
+  </footer>
+</section>

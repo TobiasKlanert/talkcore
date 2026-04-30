@@ -19,3 +19,30 @@ export interface LoginResponse {
   refresh: string;
   user: User;
 }
+
+export interface RegisterRequest {
+  display_name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+}
+
+export interface RegisterResponse {
+  detail: string;
+}
+
+export interface ConfirmPasswordResetRequest {
+  uid: string;
+  token: string;
+  password: string;
+  password_confirm: string;
+}
+
+export interface ActivateAccountRequest {
+  uid: string;
+  token: string;
+}
+
+export interface DetailResponse {
+  detail: string;
+}
