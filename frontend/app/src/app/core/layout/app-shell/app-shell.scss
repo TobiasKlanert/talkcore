@@ -84,6 +84,14 @@
   }
 }
 
+.sidenav-groups {
+  @include mat.expansion-overrides ((
+    container-shape: 0,
+    container-background-color: transparent,
+    container-elevation-shadow: none,
+  ))
+}
+
 .nav {
   display: flex;
   flex-direction: column;
@@ -91,7 +99,7 @@
   padding: 12px;
 }
 
-.nav:last-child {
+.nav--meta {
   margin-top: auto;
   padding-bottom: 24px;
 }
@@ -126,6 +134,14 @@
     background-color: var(--nav-item-active-bg);
     color: var(--nav-item-active-text);
   }
+}
+
+.nav__item.mdc-list-item {
+  padding: 0 12px;
+}
+
+.nav__item ::ng-deep .mdc-list-item__content {
+  overflow: hidden;
 }
 
 .nav__label {

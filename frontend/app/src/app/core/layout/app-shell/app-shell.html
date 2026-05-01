@@ -69,25 +69,73 @@
 
         <mat-divider class="nav__divider"></mat-divider>
 
-        @for (section of navSections; track $index) {
-          <nav class="nav">
-            @if (section.divider) {
-              <mat-divider class="nav__divider"></mat-divider>
-            }
+        <mat-accordion class="sidenav-groups" multi>
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Channels
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-            @for (item of section.items; track item.route) {
-              <a
-                class="nav__item standard-button"
-                [routerLink]="item.route"
-                routerLinkActive="nav__item--active"
-                [attr.aria-label]="item.label"
-              >
-                <mat-icon fontSet="material-symbols-rounded">{{ item.icon }}</mat-icon>
-                <span class="nav__label">{{ item.label }}</span>
-              </a>
-            }
-          </nav>
-        }
+            <mat-nav-list>
+              @for (channel of conversationService.channels(); track channel.id) {
+                <a
+                  mat-list-item
+                  [routerLink]="['/chat', channel.id]"
+                  [attr.aria-label]="channel.name"
+                  routerLinkActive="nav__item--active"
+                  class="nav__item standard-button"
+                >
+                  <mat-icon matListItemIcon fontSet="material-symbols-rounded">tag</mat-icon>
+                  <span matListItemTitle>{{ channel.name }}</span>
+                </a>
+              }
+            </mat-nav-list>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                DMs
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-nav-list>
+              @for (dm of conversationService.dms(); track dm.id) {
+                <a
+                  mat-list-item
+                  [routerLink]="['/chat', dm.id]"
+                  [attr.aria-label]="dm.name"
+                  routerLinkActive="nav__item--active"
+                  class="nav__item standard-button"
+                >
+                  <mat-icon matListItemIcon fontSet="material-symbols-rounded">person</mat-icon>
+                  <span matListItemTitle>{{ dm.name }}</span>
+                </a>
+              }
+            </mat-nav-list>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <nav class="nav nav--meta">
+          <mat-divider class="nav__divider"></mat-divider>
+          <a
+            class="nav__item standard-button"
+            routerLink="/imprint"
+            routerLinkActive="nav__item--active"
+          >
+            <mat-icon fontSet="material-symbols-rounded">description</mat-icon>
+            <span class="nav__label">Impressum</span>
+          </a>
+          <a
+            class="nav__item standard-button"
+            routerLink="/privacy"
+            routerLinkActive="nav__item--active"
+          >
+            <mat-icon fontSet="material-symbols-rounded">policy</mat-icon>
+            <span class="nav__label">Datenschutz</span>
+          </a>
+        </nav>
       </div>
     </mat-sidenav>
 

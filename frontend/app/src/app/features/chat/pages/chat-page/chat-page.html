@@ -1,0 +1,60 @@
+@if (conversationService.selectedConversation(); as conversation) {
+  <section class="chat-page">
+    <mat-toolbar class="chat-header">
+      <div class="chat-header__title">
+        <mat-icon fontSet="material-symbols-rounded">{{ conversation.icon }}</mat-icon>
+        <h2>{{ conversation.name }}</h2>
+      </div>
+    </mat-toolbar>
+
+    <mat-divider></mat-divider>
+
+    <main #messageList class="chat-messages" aria-label="Nachrichten">
+      @for (message of conversation.messages; track message.id) {
+        <article class="message" [class.message--outgoing]="message.direction === 'outgoing'">
+          <div class="message__bubble">
+            <div class="message__meta">
+              <span class="message__author">{{ message.authorName }}</span>
+              <time [dateTime]="message.sentAt.toISOString()">
+                {{ formatMessageTime(message.sentAt) }}
+              </time>
+            </div>
+            <p>{{ message.body }}</p>
+          </div>
+        </article>
+      }
+    </main>
+
+    <mat-divider></mat-divider>
+
+    <footer class="chat-composer">
+      <form class="chat-composer__form" (ngSubmit)="sendMessage()">
+        <mat-form-field appearance="outline" class="chat-composer__field">
+          <mat-icon matPrefix fontSet="material-symbols-rounded">chat_bubble</mat-icon>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="4"
+            name="message"
+            [value]="draftMessage()"
+            (input)="updateDraftMessage($any($event.target).value)"
+            placeholder="Nachricht schreiben"
+          ></textarea>
+        </mat-form-field>
+
+        <button
+          mat-fab
+          extended
+          type="submit"
+          class="chat-composer__send standard-button"
+          [disabled]="!draftMessage().trim()"
+          aria-label="Nachricht senden"
+        >
+          <mat-icon fontSet="material-symbols-rounded">send</mat-icon>
+          Senden
+        </button>
+      </form>
+    </footer>
+  </section>
+}

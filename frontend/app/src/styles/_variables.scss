@@ -33,6 +33,7 @@
 
   /* Navigation */
   --nav-item-text: #475569;
+  --nav-section-text: #64748b;
 
   --nav-item-hover-bg: #e2e8f0;
   --nav-item-hover-text: #0f172a;
@@ -61,6 +62,30 @@
   --card-bg: #ffffff;
   --card-border: #e2e8f0;
   --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+
+  /* Chat */
+  --chat-bg: #ffffff;
+  --chat-border: #e2e8f0;
+  --chat-header-bg: #ffffff;
+  --chat-title-text: #0f172a;
+  --chat-messages-bg: #f8fbff;
+  --chat-composer-bg: #ffffff;
+  --chat-input-bg: #f8fbff;
+  --chat-input-text: #0f172a;
+  --chat-input-label: #64748b;
+  --chat-input-border: #e2e8f0;
+  --chat-input-border-hover: #cbd5f5;
+  --chat-input-border-focus: #2563eb;
+  --chat-send-bg: #2563eb;
+  --chat-send-hover-bg: #1d4ed8;
+  --chat-send-text: #ffffff;
+  --message-incoming-bg: #ffffff;
+  --message-incoming-border: #e2e8f0;
+  --message-incoming-text: #0f172a;
+  --message-outgoing-bg: #2563eb;
+  --message-outgoing-border: #2563eb;
+  --message-outgoing-text: #ffffff;
+  --message-meta-text: #64748b;
 
   /* Auth */
 --auth-title-text: #0f172a;
@@ -126,6 +151,7 @@
 
   /* Navigation */
   --nav-item-text: #94a3b8;
+  --nav-section-text: #64748b;
 
   --nav-item-hover-bg: #1e293b;
   --nav-item-hover-text: #ffffff;
@@ -154,6 +180,30 @@
   --card-bg: #1e293b;
   --card-border: #334155;
   --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  /* Chat */
+  --chat-bg: #111827;
+  --chat-border: #1e293b;
+  --chat-header-bg: #111827;
+  --chat-title-text: #f1f5f9;
+  --chat-messages-bg: #172235;
+  --chat-composer-bg: #111827;
+  --chat-input-bg: #111c2e;
+  --chat-input-text: #f1f5f9;
+  --chat-input-label: #94a3b8;
+  --chat-input-border: #334155;
+  --chat-input-border-hover: #475569;
+  --chat-input-border-focus: #38bdf8;
+  --chat-send-bg: #38bdf8;
+  --chat-send-hover-bg: #0ea5e9;
+  --chat-send-text: #020617;
+  --message-incoming-bg: #1e293b;
+  --message-incoming-border: #334155;
+  --message-incoming-text: #f1f5f9;
+  --message-outgoing-bg: #38bdf8;
+  --message-outgoing-border: #38bdf8;
+  --message-outgoing-text: #020617;
+  --message-meta-text: #94a3b8;
 
   /* Auth */
   --auth-title-text: #f1f5f9;

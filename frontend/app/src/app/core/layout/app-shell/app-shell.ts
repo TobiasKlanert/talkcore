@@ -8,9 +8,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ThemeService } from '@core/services/theme.service';
 import { AuthService } from '@core/services/auth.service';
 import { Router } from '@angular/router';
+import { ConversationService } from '@core/services/conversation.service';
 
 type Theme = 'light' | 'dark';
 
@@ -29,6 +32,8 @@ type Theme = 'light' | 'dark';
     MatInputModule,
     MatMenuModule,
     MatDividerModule,
+    MatListModule,
+    MatExpansionModule,
   ],
   templateUrl: './app-shell.html',
   styleUrl: './app-shell.scss',
@@ -36,6 +41,7 @@ type Theme = 'light' | 'dark';
 })
 export class AppShell {
   protected readonly themeService = inject(ThemeService);
+  protected readonly conversationService = inject(ConversationService);
   protected readonly sidenavExpanded = signal(false);
   private readonly authService = inject(AuthService);
 
@@ -55,23 +61,6 @@ export class AppShell {
     {
       divider: true,
       items: [{ label: 'Logout', icon: 'logout', action: 'logout' }],
-    },
-  ];
-
-  navSections = [
-    {
-      items: [
-        { label: 'Channels', icon: 'tag', route: '/chat' },
-        { label: 'DMs', icon: 'chat', route: '/dms' },
-        { label: 'Neuer Chat', icon: 'edit_square', route: '/new-chat' },
-      ],
-    },
-    {
-      divider: true,
-      items: [
-        { label: 'Impressum', icon: 'description', route: '/imprint' },
-        { label: 'Datenschutz', icon: 'policy', route: '/privacy' },
-      ],
     },
   ];
 
