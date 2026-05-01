@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -16,6 +16,8 @@ import { Router } from '@angular/router';
 import { ConversationService } from '@core/services/conversation.service';
 
 type Theme = 'light' | 'dark';
+type ConversationGroup = 'channel' | 'dm';
+type ExpandedConversationGroups = Record<ConversationGroup, boolean>;
 
 @Component({
   selector: 'app-shell',
@@ -43,6 +45,13 @@ export class AppShell {
   protected readonly themeService = inject(ThemeService);
   protected readonly conversationService = inject(ConversationService);
   protected readonly sidenavExpanded = signal(false);
+  protected readonly expandedConversationGroups = signal<ExpandedConversationGroups>({
+    channel: false,
+    dm: false,
+  });
+  protected readonly activeConversationGroup = computed<ConversationGroup | null>(
+    () => this.conversationService.selectedConversation()?.type ?? null,
+  );
   private readonly authService = inject(AuthService);
 
   constructor(private router: Router) {}
@@ -65,7 +74,46 @@ export class AppShell {
   ];
 
   toggleSidenav(): void {
-    this.sidenavExpanded.update((expanded) => !expanded);
+    this.sidenavExpanded.update((expanded) => {
+      const nextExpanded = !expanded;
+
+      this.expandedConversationGroups.set(this.getExpandedGroupsForSidenavState(nextExpanded));
+
+      return nextExpanded;
+    });
+  }
+
+  protected onConversationPanelOpened(group: ConversationGroup): void {
+    if (this.sidenavExpanded()) {
+      this.expandedConversationGroups.update((groups) => ({ ...groups, [group]: true }));
+    }
+  }
+
+  protected onConversationPanelClosed(group: ConversationGroup): void {
+    if (this.sidenavExpanded()) {
+      this.expandedConversationGroups.update((groups) => ({ ...groups, [group]: false }));
+    }
+  }
+
+  protected openConversationGroupFromCollapsedSidenav(group: ConversationGroup): void {
+    if (this.sidenavExpanded()) {
+      return;
+    }
+
+    this.sidenavExpanded.set(true);
+    this.expandedConversationGroups.set({
+      channel: group === 'channel',
+      dm: group === 'dm',
+    });
+  }
+
+  private getExpandedGroupsForSidenavState(expanded: boolean): ExpandedConversationGroups {
+    const activeGroup = this.activeConversationGroup();
+
+    return {
+      channel: expanded && activeGroup === 'channel',
+      dm: expanded && activeGroup === 'dm',
+    };
   }
 
   onMenuClick(item: any): void {

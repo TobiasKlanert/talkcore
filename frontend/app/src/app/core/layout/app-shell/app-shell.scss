@@ -85,11 +85,109 @@
 }
 
 .sidenav-groups {
-  @include mat.expansion-overrides ((
-    container-shape: 0,
-    container-background-color: transparent,
-    container-elevation-shadow: none,
-  ))
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+
+  @include mat.expansion-overrides(
+    (
+      container-shape: 0,
+      container-background-color: transparent,
+      container-elevation-shadow: none,
+      header-collapsed-state-height: 44px,
+      header-expanded-state-height: 44px,
+    )
+  );
+}
+
+.sidenav-group {
+  color: var(--nav-item-text);
+}
+
+.sidenav-group ::ng-deep .mat-expansion-panel-body {
+  padding: 0;
+}
+
+.sidenav-group ::ng-deep .mat-expansion-indicator {
+  color: var(--nav-item-text);
+}
+
+.sidenav-group ::ng-deep .mat-expansion-panel-header {
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 12px;
+  color: var(--nav-item-text);
+  transition:
+    justify-content 220ms ease,
+    padding 220ms ease;
+
+  &:hover {
+    background-color: var(--nav-item-hover-bg);
+    color: var(--nav-item-hover-text);
+  }
+}
+
+.sidenav-group--active ::ng-deep .mat-expansion-panel-header {
+  background-color: var(--nav-item-active-bg);
+  color: var(--nav-item-active-text);
+}
+
+.sidenav-group--active .sidenav-group__icon {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 600,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.sidenav-group__icon {
+  display: none;
+}
+
+.sidenav-group__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidenav:not(.sidenav--expanded) {
+  .sidenav-groups {
+    padding: 12px;
+  }
+
+  .sidenav-group ::ng-deep .mat-expansion-panel-header {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidenav-group ::ng-deep .mat-expansion-panel-header-title {
+    margin: 0;
+  }
+
+  .sidenav-group ::ng-deep .mat-content {
+    justify-content: center;
+    flex: none;
+  }
+
+  .sidenav-group ::ng-deep .mat-expansion-indicator {
+    display: none;
+  }
+
+  .sidenav-group__icon {
+    display: inline-flex;
+  }
+
+  .sidenav-group__label {
+    width: 1px;
+    opacity: 0;
+    overflow: hidden;
+  }
+}
+
+.sidenav--expanded {
+  .sidenav-group__icon {
+    display: none;
+  }
 }
 
 .nav {

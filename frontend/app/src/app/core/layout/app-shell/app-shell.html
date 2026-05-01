@@ -70,10 +70,23 @@
         <mat-divider class="nav__divider"></mat-divider>
 
         <mat-accordion class="sidenav-groups" multi>
-          <mat-expansion-panel expanded>
-            <mat-expansion-panel-header>
+          <mat-expansion-panel
+            class="sidenav-group"
+            [class.sidenav-group--active]="
+              !sidenavExpanded() && activeConversationGroup() === 'channel'
+            "
+            [expanded]="sidenavExpanded() && expandedConversationGroups().channel"
+            (opened)="onConversationPanelOpened('channel')"
+            (closed)="onConversationPanelClosed('channel')"
+          >
+            <mat-expansion-panel-header
+              (click)="openConversationGroupFromCollapsedSidenav('channel')"
+            >
               <mat-panel-title>
-                Channels
+                <mat-icon class="sidenav-group__icon" fontSet="material-symbols-rounded"
+                  >tag</mat-icon
+                >
+                <span class="sidenav-group__label">Channels</span>
               </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -87,16 +100,25 @@
                   class="nav__item standard-button"
                 >
                   <mat-icon matListItemIcon fontSet="material-symbols-rounded">tag</mat-icon>
-                  <span matListItemTitle>{{ channel.name }}</span>
+                  <span matListItemTitle class="nav__label">{{ channel.name }}</span>
                 </a>
               }
             </mat-nav-list>
           </mat-expansion-panel>
 
-          <mat-expansion-panel expanded>
-            <mat-expansion-panel-header>
+          <mat-expansion-panel
+            class="sidenav-group"
+            [class.sidenav-group--active]="!sidenavExpanded() && activeConversationGroup() === 'dm'"
+            [expanded]="sidenavExpanded() && expandedConversationGroups().dm"
+            (opened)="onConversationPanelOpened('dm')"
+            (closed)="onConversationPanelClosed('dm')"
+          >
+            <mat-expansion-panel-header (click)="openConversationGroupFromCollapsedSidenav('dm')">
               <mat-panel-title>
-                DMs
+                <mat-icon class="sidenav-group__icon" fontSet="material-symbols-rounded"
+                  >person</mat-icon
+                >
+                <span class="sidenav-group__label">DMs</span>
               </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -110,7 +132,7 @@
                   class="nav__item standard-button"
                 >
                   <mat-icon matListItemIcon fontSet="material-symbols-rounded">person</mat-icon>
-                  <span matListItemTitle>{{ dm.name }}</span>
+                  <span matListItemTitle class="nav__label">{{ dm.name }}</span>
                 </a>
               }
             </mat-nav-list>
