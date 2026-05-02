@@ -1,9 +1,10 @@
 @use '@angular/material' as mat;
+@import '@styles/_mixins.scss';
 
-:host {
+/* :host {
   display: block;
   height: 100%;
-}
+} */
 
 .chat-page {
   display: grid;
@@ -12,13 +13,13 @@
   min-height: 0;
   overflow: hidden;
   border: 1px solid var(--chat-border);
-  border-radius: 8px;
+  border-radius: 16px;
   background: var(--chat-bg);
   box-shadow: var(--card-shadow);
 }
 
 .chat-header {
-  min-height: 64px;
+  height: 64px;
   background: var(--chat-header-bg);
   color: var(--chat-title-text);
 }
@@ -94,6 +95,8 @@
 }
 
 .chat-composer {
+  @include d-flex();
+  height: 140px;
   padding: 16px 20px;
   background: var(--chat-composer-bg);
 }
@@ -103,6 +106,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: 12px;
+  width: 100%;
 }
 
 .chat-composer__field {

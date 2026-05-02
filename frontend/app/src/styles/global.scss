@@ -73,3 +73,11 @@ a {
   @include button-transition();
 }
 
+.standard-divider {
+  @include mat.divider-overrides(
+    (
+      color: var(--shell-divider),
+    )
+  );
+}
+

@@ -7,7 +7,7 @@
       </div>
     </mat-toolbar>
 
-    <mat-divider></mat-divider>
+    <mat-divider class="standard-divider"></mat-divider>
 
     <main #messageList class="chat-messages" aria-label="Nachrichten">
       @for (message of conversation.messages; track message.id) {
@@ -25,7 +25,7 @@
       }
     </main>
 
-    <mat-divider></mat-divider>
+    <mat-divider class="standard-divider"></mat-divider>
 
     <footer class="chat-composer">
       <form class="chat-composer__form" (ngSubmit)="sendMessage()">
