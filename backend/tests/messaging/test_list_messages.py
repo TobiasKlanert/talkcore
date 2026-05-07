@@ -33,6 +33,21 @@ def test_user_can_list_messages(api_client, authenticated_tokens, user_factory):
     messages = _extract_messages(response)
 
     assert len(messages) == 2
+    assert set(messages[0]) == {
+        "id",
+        "conversation",
+        "sender",
+        "content",
+        "created_at",
+        "updated_at",
+        "is_edited",
+    }
+    assert messages[0]["conversation"] == str(conversation.id)
+    assert messages[0]["sender"]["id"] == str(member_user.id)
+    assert messages[0]["sender"]["email"] == member_user.email
+    assert messages[0]["sender"]["display_name"] == member_user.display_name
+    assert messages[0]["content"] == "First"
+    assert messages[0]["is_edited"] is False
 
 
 @pytest.mark.django_db

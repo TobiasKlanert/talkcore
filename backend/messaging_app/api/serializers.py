@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from messaging_app.models import Conversation, Message
 from rest_framework import serializers
+from users_app.api.serializers import UserSerializer
 
 
 class SendMessageSerializer(serializers.Serializer):
@@ -22,15 +23,34 @@ class CreateDMSerializer(serializers.Serializer):
             raise serializers.ValidationError("Cannot create DM with yourself")
         return value
 
+
 class MessageSerializer(serializers.ModelSerializer):
+    sender = UserSerializer(read_only=True)
+
     class Meta:
         model = Message
-        fields = ["id", "conversation", "sender", "content", "created_at"]
-        read_only_fields = ["id", "sender", "created_at"]
+        fields = [
+            "id",
+            "conversation",
+            "sender",
+            "content",
+            "created_at",
+            "updated_at",
+            "is_edited",
+        ]
+        read_only_fields = [
+            "id",
+            "conversation",
+            "sender",
+            "content",
+            "created_at",
+            "updated_at",
+            "is_edited",
+        ]
 
 
 class ConversationSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Conversation
         fields = ["id", "type", "name"]
         read_only_fields = ["id", "type"]

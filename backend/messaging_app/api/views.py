@@ -40,14 +40,7 @@ class SendMessageView(APIView):
             content=content,
         )
 
-        return Response(
-            {
-                "id": message.id,
-                "content": message.content,
-                "created_at": message.created_at,
-            },
-            status=status.HTTP_201_CREATED,
-        )
+        return Response(MessageSerializer(message).data, status=status.HTTP_201_CREATED)
 
 
 class ListMessagesView(generics.ListAPIView):

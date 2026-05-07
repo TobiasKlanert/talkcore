@@ -1,60 +1,80 @@
-@if (conversationService.selectedConversation(); as conversation) {
-  <section class="chat-page">
-    <mat-toolbar class="chat-header">
+<section class="chat-page">
+  <mat-toolbar class="chat-header">
+    @if (conversationService.selectedConversation(); as conversation) {
       <div class="chat-header__title">
         <mat-icon fontSet="material-symbols-rounded">{{ conversation.icon }}</mat-icon>
         <h2>{{ conversation.name }}</h2>
       </div>
-    </mat-toolbar>
+    } @else {
+      <div class="chat-header__title">
+        <mat-icon fontSet="material-symbols-rounded">forum</mat-icon>
+        <h2>Chat</h2>
+      </div>
+    }
+  </mat-toolbar>
 
-    <mat-divider class="standard-divider"></mat-divider>
+  <mat-divider class="standard-divider"></mat-divider>
 
-    <main #messageList class="chat-messages" aria-label="Nachrichten">
+  <main #messageList class="chat-messages" aria-label="Nachrichten">
+    @if (errorMessage()) {
+      <p class="chat-feedback chat-feedback--error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    @if (loadingConversations()) {
+      <p class="chat-feedback" role="status">Conversations werden geladen ...</p>
+    } @else if (loadingMessages()) {
+      <p class="chat-feedback" role="status">Nachrichten werden geladen ...</p>
+    }
+
+    @if (conversationService.selectedConversation(); as conversation) {
       @for (message of conversation.messages; track message.id) {
         <article class="message" [class.message--outgoing]="message.direction === 'outgoing'">
           <div class="message__bubble">
             <div class="message__meta">
-              <span class="message__author">{{ message.authorName }}</span>
+              <span class="message__author">{{ message.senderName }}</span>
               <time [dateTime]="message.sentAt.toISOString()">
                 {{ formatMessageTime(message.sentAt) }}
               </time>
             </div>
-            <p>{{ message.body }}</p>
+            <p>{{ message.content }}</p>
           </div>
         </article>
       }
-    </main>
+    }
+  </main>
 
-    <mat-divider class="standard-divider"></mat-divider>
+  <mat-divider class="standard-divider"></mat-divider>
 
-    <footer class="chat-composer">
-      <form class="chat-composer__form" (ngSubmit)="sendMessage()">
-        <mat-form-field appearance="outline" class="chat-composer__field">
-          <mat-icon matPrefix fontSet="material-symbols-rounded">chat_bubble</mat-icon>
-          <textarea
-            matInput
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="1"
-            cdkAutosizeMaxRows="4"
-            name="message"
-            [value]="draftMessage()"
-            (input)="updateDraftMessage($any($event.target).value)"
-            placeholder="Nachricht schreiben"
-          ></textarea>
-        </mat-form-field>
+  <footer class="chat-composer">
+    <form class="chat-composer__form" (ngSubmit)="sendMessage()">
+      <mat-form-field appearance="outline" class="chat-composer__field">
+        <mat-icon matPrefix fontSet="material-symbols-rounded">chat_bubble</mat-icon>
+        <textarea
+          matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="4"
+          name="message"
+          [value]="draftMessage()"
+          (input)="updateDraftMessage($any($event.target).value)"
+          [disabled]="!conversationService.selectedConversation() || sendingMessage()"
+          placeholder="Nachricht schreiben"
+        ></textarea>
+      </mat-form-field>
 
-        <button
-          mat-fab
-          extended
-          type="submit"
-          class="chat-composer__send standard-button"
-          [disabled]="!draftMessage().trim()"
-          aria-label="Nachricht senden"
-        >
-          <mat-icon fontSet="material-symbols-rounded">send</mat-icon>
-          Senden
-        </button>
-      </form>
-    </footer>
-  </section>
-}
+      <button
+        mat-fab
+        extended
+        type="submit"
+        class="chat-composer__send standard-button"
+        [disabled]="
+          !draftMessage().trim() || !conversationService.selectedConversation() || sendingMessage()
+        "
+        aria-label="Nachricht senden"
+      >
+        <mat-icon fontSet="material-symbols-rounded">send</mat-icon>
+        Senden
+      </button>
+    </form>
+  </footer>
+</section>

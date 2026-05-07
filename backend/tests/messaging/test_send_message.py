@@ -22,6 +22,14 @@ def test_user_can_send_message(api_client, authenticated_tokens):
     response = api_client.post(SEND_MESSAGE_URL, payload, format="json")
 
     assert response.status_code == 201
+    data = response.json()
+    assert data["conversation"] == str(conversation.id)
+    assert data["sender"]["id"] == str(user.id)
+    assert data["sender"]["email"] == user.email
+    assert data["sender"]["display_name"] == user.display_name
+    assert data["content"] == "Hello team"
+    assert data["updated_at"]
+    assert data["is_edited"] is False
     assert Message.objects.filter(
         conversation=conversation,
         sender=user,

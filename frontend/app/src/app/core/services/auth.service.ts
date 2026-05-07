@@ -12,6 +12,7 @@ import {
   RegisterResponse,
   User,
 } from '../models/auth.models';
+import { API_BASE_URL } from '@core/constants/api.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ import {
 export class AuthService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'http://127.0.0.1:8000/api';
+  private readonly apiUrl = API_BASE_URL;
   private readonly ACCESS_TOKEN_KEY = 'access_token';
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
   private readonly USER_KEY = 'user';

@@ -1,128 +1,43 @@
-import { Injectable, computed, signal } from '@angular/core';
-import { Conversation } from '@core/models/conversation.models';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { Observable, map, of, tap } from 'rxjs';
+
+import { API_BASE_URL } from '@core/constants/api.constants';
+import {
+  ChatMessage,
+  Conversation,
+  ConversationDto,
+  CreateDirectMessageRequest,
+  CreateDirectMessageResponse,
+  MessageDto,
+  SendMessageRequest,
+} from '@core/models/conversation.models';
+import { AuthService } from '@core/services/auth.service';
 
 const LAST_CONVERSATION_KEY = 'talkcore:last-conversation-id';
-const GENERAL_CHANNEL_ID = 'general';
 
-const initialConversations: Conversation[] = [
-  {
-    id: GENERAL_CHANNEL_ID,
-    name: 'general',
-    type: 'channel',
-    icon: 'tag',
-    messages: [
-      {
-        id: 'msg-1',
-        conversationId: GENERAL_CHANNEL_ID,
-        authorName: 'Mira',
-        body: 'Willkommen zurueck in TalkCore.',
-        sentAt: new Date('2026-05-01T07:45:00'),
-        direction: 'incoming',
-      },
-      {
-        id: 'msg-2',
-        conversationId: GENERAL_CHANNEL_ID,
-        authorName: 'Du',
-        body: 'Danke, ich schaue mir gleich die offenen Themen an.',
-        sentAt: new Date('2026-05-01T07:48:00'),
-        direction: 'outgoing',
-      },
-      {
-        id: 'msg-3',
-        conversationId: GENERAL_CHANNEL_ID,
-        authorName: 'Jonas',
-        body: 'Das Sprint-Board ist aktualisiert.',
-        sentAt: new Date('2026-05-01T08:12:00'),
-        direction: 'incoming',
-      },
-    ],
-  },
-  {
-    id: 'product',
-    name: 'product',
-    type: 'channel',
-    icon: 'tag',
-    messages: [
-      {
-        id: 'msg-4',
-        conversationId: 'product',
-        authorName: 'Lea',
-        body: 'Die neue Chat-Ansicht soll heute in den Review.',
-        sentAt: new Date('2026-05-01T09:05:00'),
-        direction: 'incoming',
-      },
-      {
-        id: 'msg-5',
-        conversationId: 'product',
-        authorName: 'Du',
-        body: 'Passt. Ich halte Header, Verlauf und Composer nah am bestehenden Design.',
-        sentAt: new Date('2026-05-01T09:09:00'),
-        direction: 'outgoing',
-      },
-    ],
-  },
-  {
-    id: 'design',
-    name: 'design',
-    type: 'channel',
-    icon: 'tag',
-    messages: [
-      {
-        id: 'msg-6',
-        conversationId: 'design',
-        authorName: 'Sam',
-        body: 'Bitte die bestehenden Farbvariablen weiterverwenden.',
-        sentAt: new Date('2026-05-01T10:20:00'),
-        direction: 'incoming',
-      },
-    ],
-  },
-  {
-    id: 'dm-mira',
-    name: 'Mira Klein',
-    type: 'dm',
-    icon: 'account_circle',
-    messages: [
-      {
-        id: 'msg-7',
-        conversationId: 'dm-mira',
-        authorName: 'Mira',
-        body: 'Hast du kurz Zeit fuer das Auth-Thema?',
-        sentAt: new Date('2026-05-01T08:30:00'),
-        direction: 'incoming',
-      },
-      {
-        id: 'msg-8',
-        conversationId: 'dm-mira',
-        authorName: 'Du',
-        body: 'Ja, ich bin gleich bei dir.',
-        sentAt: new Date('2026-05-01T08:33:00'),
-        direction: 'outgoing',
-      },
-    ],
-  },
-  {
-    id: 'dm-jonas',
-    name: 'Jonas Weber',
-    type: 'dm',
-    icon: 'account_circle',
-    messages: [
-      {
-        id: 'msg-9',
-        conversationId: 'dm-jonas',
-        authorName: 'Jonas',
-        body: 'Ich habe dir die API-Notizen geschickt.',
-        sentAt: new Date('2026-05-01T11:15:00'),
-        direction: 'incoming',
-      },
-    ],
-  },
-];
+const CONVERSATION_API_PATHS = {
+  conversations: `${API_BASE_URL}/conversations/`,
+  messages: `${API_BASE_URL}/messages/`,
+  conversationMessages: (conversationId: string) =>
+    `${API_BASE_URL}/conversations/${conversationId}/messages/`,
+  createDirectMessage: `${API_BASE_URL}/conversations/create-dm/`,
+};
+
+interface ApiListResponse<T> {
+  results: T[];
+}
+
+type ListResponse<T> = T[] | ApiListResponse<T>;
 
 @Injectable({ providedIn: 'root' })
 export class ConversationService {
-  private readonly conversationsSignal = signal<Conversation[]>(initialConversations);
-  private readonly selectedConversationIdSignal = signal(this.getInitialConversationId());
+  private readonly http = inject(HttpClient);
+  private readonly authService = inject(AuthService);
+  private readonly conversationsSignal = signal<Conversation[]>([]);
+  private readonly selectedConversationIdSignal = signal<string | null>(
+    this.getStorage()?.getItem(LAST_CONVERSATION_KEY) ?? null,
+  );
 
   readonly conversations = this.conversationsSignal.asReadonly();
   readonly channels = computed(() =>
@@ -136,11 +51,80 @@ export class ConversationService {
     this.getConversation(this.selectedConversationIdSignal()),
   );
 
-  selectConversation(conversationId: string): Conversation {
-    const conversation = this.getConversation(conversationId) ?? this.getGeneralConversation();
+  loadConversations(): Observable<Conversation[]> {
+    return this.http.get<ListResponse<ConversationDto>>(CONVERSATION_API_PATHS.conversations).pipe(
+      map((response) => this.extractList(response).map((dto) => this.mapConversation(dto))),
+      tap((conversations) => this.setConversations(conversations)),
+    );
+  }
 
-    this.selectedConversationIdSignal.set(conversation.id);
-    this.getStorage()?.setItem(LAST_CONVERSATION_KEY, conversation.id);
+  loadConversation(conversationId: string): Observable<Conversation | undefined> {
+    const cachedConversation = this.getConversation(conversationId);
+
+    if (cachedConversation) {
+      return of(cachedConversation);
+    }
+
+    return this.loadConversations().pipe(
+      map((conversations) =>
+        conversations.find((conversation) => conversation.id === conversationId),
+      ),
+    );
+  }
+
+  loadMessages(conversationId: string): Observable<ChatMessage[]> {
+    return this.http
+      .get<ListResponse<MessageDto>>(CONVERSATION_API_PATHS.conversationMessages(conversationId))
+      .pipe(
+        map((response) =>
+          this.extractList(response).map((dto) => this.mapMessage(dto, conversationId)),
+        ),
+        tap((messages) => this.setConversationMessages(conversationId, messages)),
+      );
+  }
+
+  sendMessage(conversationId: string, content: string): Observable<ChatMessage | null> {
+    const trimmedContent = content.trim();
+
+    if (!trimmedContent) {
+      return of(null);
+    }
+
+    const payload: SendMessageRequest = {
+      conversation: conversationId,
+      content: trimmedContent,
+    };
+
+    return this.http.post<MessageDto>(CONVERSATION_API_PATHS.messages, payload).pipe(
+      map((dto) => this.mapMessage(dto, conversationId, trimmedContent)),
+      tap((message) => this.appendConversationMessage(conversationId, message)),
+    );
+  }
+
+  createDirectMessage(
+    payload: CreateDirectMessageRequest,
+  ): Observable<CreateDirectMessageResponse> {
+    return this.http.post<CreateDirectMessageResponse>(
+      CONVERSATION_API_PATHS.createDirectMessage,
+      payload,
+    );
+  }
+
+  selectConversation(conversationId: string): Conversation | undefined {
+    const conversation = this.getConversation(conversationId);
+
+    this.selectedConversationIdSignal.set(conversationId);
+    this.getStorage()?.setItem(LAST_CONVERSATION_KEY, conversationId);
+
+    return conversation;
+  }
+
+  selectFirstConversation(): Conversation | undefined {
+    const conversation = this.conversationsSignal()[0];
+
+    if (conversation) {
+      this.selectConversation(conversation.id);
+    }
 
     return conversation;
   }
@@ -149,50 +133,104 @@ export class ConversationService {
     return this.conversationsSignal().find((conversation) => conversation.id === conversationId);
   }
 
-  getLastConversationId(): string {
-    return this.getInitialConversationId();
+  getLastConversationId(): string | null {
+    return (
+      this.selectedConversationIdSignal() ??
+      this.getStorage()?.getItem(LAST_CONVERSATION_KEY) ??
+      null
+    );
   }
 
-  sendMessage(conversationId: string, body: string): void {
-    const trimmedBody = body.trim();
+  private setConversations(nextConversations: Conversation[]): void {
+    const existingConversations = this.conversationsSignal();
 
-    if (!trimmedBody) {
-      return;
-    }
+    this.conversationsSignal.set(
+      nextConversations.map((conversation) => {
+        const existingConversation = existingConversations.find(
+          (existing) => existing.id === conversation.id,
+        );
 
-    const message = {
-      id: `msg-${Date.now()}`,
-      conversationId,
-      authorName: 'Du',
-      body: trimmedBody,
-      sentAt: new Date(),
-      direction: 'outgoing' as const,
-    };
+        return existingConversation
+          ? { ...conversation, messages: existingConversation.messages }
+          : conversation;
+      }),
+    );
+  }
 
+  private setConversationMessages(conversationId: string, messages: ChatMessage[]): void {
+    this.conversationsSignal.update((conversations) =>
+      conversations.map((conversation) =>
+        conversation.id === conversationId ? { ...conversation, messages } : conversation,
+      ),
+    );
+  }
+
+  private appendConversationMessage(conversationId: string, message: ChatMessage): void {
     this.conversationsSignal.update((conversations) =>
       conversations.map((conversation) =>
         conversation.id === conversationId
-          ? {
-              ...conversation,
-              messages: [...conversation.messages, message],
-            }
+          ? { ...conversation, messages: [...conversation.messages, message] }
           : conversation,
       ),
     );
   }
 
-  private getInitialConversationId(): string {
-    const persistedConversationId = this.getStorage()?.getItem(LAST_CONVERSATION_KEY);
-
-    if (persistedConversationId && this.getConversation(persistedConversationId)) {
-      return persistedConversationId;
-    }
-
-    return GENERAL_CHANNEL_ID;
+  private mapConversation(dto: ConversationDto): Conversation {
+    return {
+      id: dto.id,
+      name: dto.name || (dto.type === 'channel' ? 'Unbenannter Channel' : 'Direct Message'),
+      type: dto.type,
+      icon: dto.type === 'channel' ? 'tag' : 'account_circle',
+      messages: [],
+    };
   }
 
-  private getGeneralConversation(): Conversation {
-    return this.getConversation(GENERAL_CHANNEL_ID) ?? this.conversationsSignal()[0];
+  private mapMessage(
+    dto: MessageDto,
+    conversationIdFallback: string,
+    contentFallback?: string,
+  ): ChatMessage {
+    const currentUser = this.authService.getCurrentUser();
+    const senderId = this.getSenderId(dto.sender) ?? currentUser?.id ?? '';
+    const conversationId = dto.conversation ?? conversationIdFallback;
+    const content = dto.content || contentFallback || '';
+    const createdAt = dto.created_at || new Date().toISOString();
+    const updatedAt = dto.updated_at ?? createdAt;
+    const isOutgoing = Boolean(currentUser?.id && senderId === currentUser.id);
+
+    return {
+      id: dto.id,
+      conversationId,
+      conversation: conversationId,
+      sender: senderId,
+      senderName: isOutgoing ? 'Du' : this.getSenderDisplayName(dto.sender),
+      content,
+      sentAt: new Date(createdAt),
+      created_at: createdAt,
+      updated_at: updatedAt,
+      is_edited: dto.is_edited ?? false,
+      direction: isOutgoing ? 'outgoing' : 'incoming',
+    };
+  }
+
+  private getSenderId(sender: MessageDto['sender']): string | undefined {
+    if (!sender) {
+      return undefined;
+    }
+
+    return typeof sender === 'string' ? sender : sender.id;
+  }
+
+  private getSenderDisplayName(sender: MessageDto['sender']): string {
+    if (!sender || typeof sender === 'string') {
+      return 'Unbekannt';
+    }
+
+    return sender.display_name || sender.email || 'Unbekannt';
+  }
+
+  private extractList<T>(response: ListResponse<T>): T[] {
+    return Array.isArray(response) ? response : response.results;
   }
 
   private getStorage(): Pick<Storage, 'getItem' | 'setItem'> | undefined {

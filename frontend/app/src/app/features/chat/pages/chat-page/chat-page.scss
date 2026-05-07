@@ -51,6 +51,16 @@
   background: var(--chat-messages-bg);
 }
 
+.chat-feedback {
+  margin: 0;
+  color: var(--message-incoming-meta-text);
+  font-size: 0.9rem;
+}
+
+.chat-feedback--error {
+  color: var(--error-text, #b91c1c);
+}
+
 .message {
   display: flex;
   justify-content: flex-start;
