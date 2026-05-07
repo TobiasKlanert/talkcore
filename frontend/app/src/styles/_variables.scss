@@ -11,6 +11,8 @@
   /* Base */
   --shell-bg: #f1f5f9;
   --content-bg: #f8fbff;
+  --shadow-subtle: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --shadow-panel: 0 12px 32px rgba(15, 23, 42, 0.12);
 
   /* Topbar */
   --topbar-bg: #ffffff;
@@ -82,13 +84,14 @@
   --message-incoming-bg: #ffffff;
   --message-incoming-border: #e2e8f0;
   --message-incoming-text: #0f172a;
+  --message-incoming-meta-text: #64748b;
   --message-outgoing-bg: #2563eb;
   --message-outgoing-border: #2563eb;
   --message-outgoing-text: #ffffff;
-  --message-meta-text: #64748b;
+  --message-outgoing-meta-text: #dbeafe;
 
   /* Auth */
---auth-title-text: #0f172a;
+  --auth-title-text: #0f172a;
   --auth-body-text: #334155;
   --auth-muted-text: #64748b;
 
@@ -129,6 +132,8 @@
   /* Base */
   --shell-bg: #020617;
   --content-bg: #172235;
+  --shadow-subtle: 0 4px 14px rgba(0, 0, 0, 0.18);
+  --shadow-panel: 0 16px 40px rgba(0, 0, 0, 0.32);
 
   /* Topbar */
   --topbar-bg: #020617;
@@ -200,10 +205,11 @@
   --message-incoming-bg: #1e293b;
   --message-incoming-border: #334155;
   --message-incoming-text: #f1f5f9;
+  --message-incoming-meta-text: #94a3b8;
   --message-outgoing-bg: #38bdf8;
   --message-outgoing-border: #38bdf8;
   --message-outgoing-text: #020617;
-  --message-meta-text: #94a3b8;
+  --message-outgoing-meta-text: #075985;
 
   /* Auth */
   --auth-title-text: #f1f5f9;

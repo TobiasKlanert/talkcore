@@ -45,6 +45,7 @@
   color: var(--sidenav-text);
   overflow: hidden;
   transition: width 220ms ease;
+  box-shadow: var(--shadow-subtle);
 }
 
 .sidenav--expanded {

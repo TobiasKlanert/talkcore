@@ -15,7 +15,8 @@
   border: 1px solid var(--chat-border);
   border-radius: 16px;
   background: var(--chat-bg);
-  box-shadow: var(--card-shadow);
+  // box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow-panel);
 }
 
 .chat-header {
@@ -73,19 +74,27 @@
     line-height: 1.5;
     overflow-wrap: anywhere;
   }
+
+  .message__meta {
+    color: var(--message-incoming-meta-text);
+  }
 }
 
 .message--outgoing .message__bubble {
   border-color: var(--message-outgoing-border);
   background: var(--message-outgoing-bg);
   color: var(--message-outgoing-text);
+
+  .message__meta {
+    color: var(--message-outgoing-meta-text);
+  }
 }
 
 .message__meta {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  color: var(--message-meta-text);
+  // color: var(--message-meta-text);
   font-size: 0.76rem;
 }
 
